@@ -16,7 +16,7 @@ spec:
             pathType: ImplementationSpecific
             annotations:
               kubernetes.io/ingress.class: nginx
-              cert-manager.io/cluster-issuer: letsencrypt-prod
+              cert-manager.io/cluster-issuer: letsencrypt
               cert-manager.io/common-name: vault.dublinconsulting.com.br
             hosts:
               - host: vault.dublinconsulting.com.br

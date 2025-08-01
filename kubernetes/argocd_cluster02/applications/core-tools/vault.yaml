@@ -16,14 +16,17 @@ spec:
             pathType: ImplementationSpecific
             annotations:
               kubernetes.io/ingress.class: nginx
-              nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-              nginx.ingress.kubernetes.io/ssl-redirect: "false"
-              nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-              nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+              cert-manager.io/cluster-issuer: "letsencrypt"
+              external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
             hosts:
               - host: vault.dublinconsulting.com.br
                 paths:
                 - "/"
+            tls:
+            - secretName: vault-tls
+              hosts:
+                - vault.dublinconsulting.com.br
     chart: infra/vault
   destination:
     server: https://kubernetes.default.svc

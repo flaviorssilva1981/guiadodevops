@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 1.14.2
+    helm:
+      values: |-
+        provider: aws
+        aws:
+          zoneType: public
+          assumeRole: ""
+          credentials:
+            secretName: external-dns-provider-aws
+            accessKeyIdKey: access-key-id
+            secretAccessKeyKey: secret-access-key
+        policy: sync
+        sources:
+          - ingress
+        domainFilters:
+          - dublinconsulting.com.br
+        txtOwnerId: cluster02
+        txtPrefix: "external-dns-"
+        interval: 5m
+        logLevel: info
+        logFormat: text
+        registry: txt
+        txtCacheInterval: 0s
+        serviceAccount:
+          create: true
+          name: external-dns
+          annotations: {}
+        rbac:
+          create: true
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        nodeSelector: {}
+        tolerations: []
+        affinity: {}
+        podAnnotations: {}
+        podSecurityContext: {}
+        securityContext: {}
+        serviceAccountAnnotations: {}
+        priorityClassName: ""
+        deploymentAnnotations: {}
+        podLabels: {}
+        serviceLabels: {}
+        serviceAnnotations: {}
+        ingress:
+          enabled: false
+        serviceMonitor:
+          enabled: false
+        prometheusRule:
+          enabled: false
+        pdb:
+          enabled: false
+        hostNetwork: false
+        dnsPolicy: ClusterFirst
+        image:
+          repository: registry.k8s.io/external-dns/external-dns
+          tag: v0.13.5
+          pullPolicy: IfNotPresent
+        imagePullSecrets: []
+        extraArgs: []
+        extraEnvs: []
+        extraVolumeMounts: []
+        extraVolumes: []
+        livenessProbe:
+          enabled: true
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+        readinessProbe:
+          enabled: true
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+    chart: infra/external-dns
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

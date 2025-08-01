@@ -16,7 +16,6 @@ spec:
             pathType: ImplementationSpecific
             annotations:
               kubernetes.io/ingress.class: nginx
-              external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
             hosts:
               - host: vault.dublinconsulting.com.br
                 paths:

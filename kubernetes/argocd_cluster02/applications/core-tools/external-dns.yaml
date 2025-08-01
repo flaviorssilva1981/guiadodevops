@@ -13,6 +13,7 @@ spec:
         provider: aws
         aws:
           zoneType: public
+          region: us-east-1
           assumeRole: ""
           credentials:
             secretName: external-dns-provider-aws

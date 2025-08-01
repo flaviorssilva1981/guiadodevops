@@ -17,7 +17,7 @@ spec:
     - dns01:
         route53:
           region: us-east-1  # Replace with your AWS region
-          hostedZoneID: Z1234567890ABC  # Replace with your actual Route 53 hosted zone ID
+          hostedZoneID: Z0137760XOTQS1KJNLL4  # Replace with your actual Route 53 hosted zone ID
           accessKeyIDSecretRef:
             name: aws-credentials
             key: access-key-id

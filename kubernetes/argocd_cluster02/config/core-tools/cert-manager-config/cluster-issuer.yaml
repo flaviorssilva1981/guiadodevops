@@ -7,13 +7,20 @@ spec:
     # You must replace this email address with your own.
     # Let's Encrypt will use this to contact you about expiring
     # certificates, and issues related to your account.
-    email: willianpereiraalmeida@hotmail.com
+    email: flavio.rssilva@gmail.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       name: letsencrypt
-    # Add a single challenge solver, HTTP01 using nginx
+    # Add DNS-01 challenge solver for Route 53
     solvers:
-    - http01:
-        ingress:
-          ingressClassName: nginx
+    - dns01:
+        route53:
+          region: us-east-1  # Replace with your AWS region
+          hostedZoneID: Z1234567890ABC  # Replace with your actual Route 53 hosted zone ID
+          accessKeyIDSecretRef:
+            name: aws-credentials
+            key: access-key-id
+          secretAccessKeySecretRef:
+            name: aws-credentials
+            key: secret-access-key

@@ -10,85 +10,56 @@ spec:
     targetRevision: 1.17.0
     helm:
       values: |-
-        provider: aws
-        aws:
-          zoneType: public
-          region: us-east-1
-          assumeRole: ""
-          credentials:
-            secretName: external-dns-provider-aws
-            accessKeyIdKey: access-key-id
-            secretAccessKeyKey: secret-access-key
-        policy: sync
-        sources:
-          - ingress
+        # Cloudflare configuration for external-dns
+        provider:
+          name: cloudflare
+
+        # Cloudflare-specific arguments
+        extraArgs:
+          - --cloudflare-proxied
+          - --cloudflare-dns-records-per-page=100
+
+        # Environment variables for Cloudflare credentials
+        env:
+          - name: CF_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: external-dns-provider-cloudflare
+                key: CF_API_KEY
+          - name: CF_API_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: external-dns-provider-cloudflare
+                key: CF_API_EMAIL
+
+        # Domain filters (optional - limit which domains to manage)
         domainFilters:
-          - dublinconsulting.com.br
-        txtOwnerId: cluster02
-        txtPrefix: "external-dns-"
-        interval: 5m
-        logLevel: info
-        logFormat: text
+          - "dublinconsulting.com.br"
+
+        # Sources to monitor
+        sources:
+          - service
+          - ingress
+
+        # Registry type for tracking ownership
         registry: txt
-        txtCacheInterval: 0s
-        serviceAccount:
-          create: true
-          name: external-dns
-          annotations: {}
-        rbac:
-          create: true
-        resources:
-          limits:
-            cpu: 100m
-            memory: 128Mi
-          requests:
-            cpu: 50m
-            memory: 64Mi
-        nodeSelector: {}
-        tolerations: []
-        affinity: {}
-        podAnnotations: {}
-        podSecurityContext: {}
-        securityContext: {}
-        serviceAccountAnnotations: {}
-        priorityClassName: ""
-        deploymentAnnotations: {}
-        podLabels: {}
-        serviceLabels: {}
-        serviceAnnotations: {}
-        ingress:
-          enabled: false
-        serviceMonitor:
-          enabled: false
-        prometheusRule:
-          enabled: false
-        pdb:
-          enabled: false
-        hostNetwork: false
-        dnsPolicy: ClusterFirst
-        image:
-          repository: registry.k8s.io/external-dns/external-dns
-          tag: v0.13.5
-          pullPolicy: IfNotPresent
-        imagePullSecrets: []
-        extraArgs: []
-        extraEnvs: []
-        extraVolumeMounts: []
-        extraVolumes: []
-        livenessProbe:
-          enabled: true
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1
-        readinessProbe:
-          enabled: true
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1
+
+        # TXT owner ID to identify records created by this instance
+        txtOwnerId: "external-dns"
+
+        # Policy for DNS record management
+        policy: upsert-only
+
+        # Update interval
+        interval: 2m
+
+        # Log level
+        logLevel: info
+
+        deploymentAnnotations:
+          reloader.stakater.com/match: "true"
+        podAnnotations:
+          reloader.stakater.com/auto: "true"
     chart: infra/external-dns
   destination:
     server: https://kubernetes.default.svc

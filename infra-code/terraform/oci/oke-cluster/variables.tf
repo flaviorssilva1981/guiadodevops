@@ -4,12 +4,12 @@ variable "region" {
 
 
 variable "tenancy_ocid" {
-  description = "ocid1.tenancy.oc1..aaaaaaaazjhsdvngrxxref2sykfxkpqonubj3i5yii6o3wv2tjy7inoqfjba"
+  description = "ocid1.tenancy.oc1.."
   type        = string
 }
 
 variable "compartment_ocid" {
-  description = "ocid1.compartment.oc1..aaaaaaaacfrcqei3rsvubbjzfgvifvczgjokyvr6hrbxb65wmzlnzsy3pfvq"
+  description = "ocid1.compartment.oc1.."
   type        = string
 }
 
@@ -26,7 +26,7 @@ variable "kubernetes_version" {
 variable "node_image_id" {
   description = "Oracle-Linux-8.10"
   type        = string
-  default     = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaasw5av4oqvhsstxjy2ddk6s2htw6r52yngdoer3ncv5zufktt5nca"
+  default     = "ocid1.image.oc1.sa-saopaulo-1."
 }
 
 variable "node_shape_id" {

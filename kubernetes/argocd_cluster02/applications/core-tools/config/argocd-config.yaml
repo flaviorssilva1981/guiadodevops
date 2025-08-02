@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-config
+  namespace: argocd     
+spec:
+  project: core-tools-config
+  source:
+    repoURL: https://github.com/flaviorssilva1981/guiadodevops.git
+    path: kubernetes/argocd_cluster02/config/core-tools/argocd-config
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operational
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

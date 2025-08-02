@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 8.1.2
+    helm:
+      values: |-
+        server:
+          ingress:
+            enabled: true
+            hostname: argocd.dublinconsulting.com.br
+            annotations:
+              kubernetes.io/ingress.class: "nginx"
+              cert-manager.io/cluster-issuer: "letsencrypt"
+              external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            hosts:
+              - argocd.dublinconsulting.com.br
+            paths:
+              - /
+            tls:
+              - hosts:
+                  - argocd.dublinconsulting.com.br
+                secretName: argocd-tls
+    chart: infra/argo-cd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

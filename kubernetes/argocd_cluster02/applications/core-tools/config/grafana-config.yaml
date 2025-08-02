@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-config
+  namespace: argocd     
+spec:
+  project: core-tools-config
+  source:
+    repoURL: https://github.com/flaviorssilva1981/guiadodevops.git
+    path: kubernetes/argocd_02/config/core-tools/grafana-config
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

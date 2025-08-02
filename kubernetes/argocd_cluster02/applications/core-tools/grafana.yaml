@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 9.2.10
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          hosts:
+            - grafana.dublinconsulting.com.br
+          path: /
+          tls:
+          - secretName: grafana-tls
+            hosts:
+              - grafana.dublinconsulting.com.br
+        sidecar:
+          alerts:
+            enabled: true
+          dashboards:
+            enabled: true
+          datasources:
+            enabled: true
+          plugins:
+            enabled: true
+          notifiers:
+            enabled: true
+    chart: infra/grafana
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

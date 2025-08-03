@@ -26,6 +26,8 @@ spec:
           enabled: false
         prometheus:
           prometheusSpec:
+            serviceMonitorSelector: {}
+            serviceMonitorNamespaceSelector: {}
             replicas: 1
             storageSpec:
               volumeClaimTemplate:
@@ -54,17 +56,6 @@ spec:
             limits:
               memory: 2Gi
               cpu: 1000m
-        additionalScrapeConfigs:
-          - job_name: 'trivy-operator'
-            static_configs:
-              - targets: ['trivy-operator.security.svc.cluster.local:80']
-            metrics_path: '/metrics'
-            scrape_interval: 30s
-            scrape_timeout: 10s
-            relabel_configs:
-              - source_labels: [__name__]
-                regex: 'trivy_operator_.*'
-                action: keep
     chart: prometheus
   destination:
     server: https://kubernetes.default.svc

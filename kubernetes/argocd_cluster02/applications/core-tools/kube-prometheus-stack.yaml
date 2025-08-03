@@ -27,7 +27,10 @@ spec:
         prometheus:
           prometheusSpec:
             serviceMonitorSelector: {}
-            serviceMonitorNamespaceSelector: {}
+            serviceMonitorNamespaceSelector:
+              matchNames:
+                - monitoring
+                - security
             replicas: 1
             storageSpec:
               volumeClaimTemplate:

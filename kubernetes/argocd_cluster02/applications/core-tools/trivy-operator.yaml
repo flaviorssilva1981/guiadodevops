@@ -17,8 +17,10 @@ spec:
         prometheus:
           serviceMonitor:
             enabled: true
+            namespace: monitoring
             labels:
-              release: prometheus
+              app.kubernetes.io/name: prometheus
+              app.kubernetes.io/instance: prometheus
           rules:
             enabled: true
   destination:

@@ -29,7 +29,7 @@ spec:
           storageClassName: "oci-bv"
           size: 10Gi
           accessModes:
-            - ReadWriteOnce
+            - ReadWriteMany
         sidecar:
           alerts:
             enabled: true

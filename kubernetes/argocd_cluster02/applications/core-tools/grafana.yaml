@@ -10,6 +10,7 @@ spec:
     targetRevision: 9.2.10
     helm:
       values: |-
+        replicaCount: 1
         ingress:
           enabled: true
           ingressClassName: nginx
@@ -29,7 +30,7 @@ spec:
           storageClassName: "oci-bv"
           size: 10Gi
           accessModes:
-            - ReadWriteMany
+            - ReadWriteOnce
         sidecar:
           alerts:
             enabled: true

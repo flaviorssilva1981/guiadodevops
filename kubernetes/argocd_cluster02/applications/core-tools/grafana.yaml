@@ -24,6 +24,12 @@ spec:
           - secretName: grafana-tls
             hosts:
               - grafana.dublinconsulting.com.br
+        persistence:
+          enabled: true
+          storageClassName: "oci-bv"
+          size: 10Gi
+          accessModes:
+            - ReadWriteOnce
         sidecar:
           alerts:
             enabled: true

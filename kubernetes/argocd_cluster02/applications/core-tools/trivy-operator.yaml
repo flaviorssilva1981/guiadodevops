@@ -14,6 +14,8 @@ spec:
         operator:
           metrics:
             enabled: true
+        service:
+          metricsPort: 8080
         prometheus:
           serviceMonitor:
             enabled: true

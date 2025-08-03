@@ -21,7 +21,6 @@ spec:
               release: prometheus
           rules:
             enabled: true
-            namespace: monitoring    
   destination:
     server: https://kubernetes.default.svc
     namespace: security

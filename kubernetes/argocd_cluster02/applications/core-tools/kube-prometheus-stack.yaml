@@ -26,6 +26,7 @@ spec:
           enabled: false
         prometheus:
           prometheusSpec:
+            serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelector: {}
             serviceMonitorNamespaceSelector:
               matchNames:

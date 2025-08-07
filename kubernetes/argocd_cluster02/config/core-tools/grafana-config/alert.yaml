@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-alert-rules
+  labels:
+    grafana_alert: "1"
+data:
+  alert-rules.yaml: |
+    apiVersion: 1
+    groups:
+      - name: kubernetes
+        folder: kubernetes
+        interval: 1m
+        rules: []

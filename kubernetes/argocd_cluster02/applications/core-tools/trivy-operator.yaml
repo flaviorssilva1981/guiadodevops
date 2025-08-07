@@ -20,9 +20,9 @@ spec:
           serviceMonitor:
             enabled: true
             namespace: monitoring
+            interval: 30s
             labels:
-              app.kubernetes.io/name: prometheus
-              app.kubernetes.io/instance: prometheus
+              release: prometheus
           rules:
             enabled: true
   destination:
@@ -33,3 +33,5 @@ spec:
       prune: true
       allowEmpty: true 
       selfHeal: true
+## test git local
+

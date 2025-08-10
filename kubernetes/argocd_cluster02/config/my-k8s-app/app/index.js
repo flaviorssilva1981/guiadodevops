@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (_, res) => {
-  res.send('🚀 App rodando com Argo CD + CI/CD + Ingress NGINX 2025');
+  res.send('🚀 App rodando com Argo CD + CI/CD + Ingress NGINX 2025 NOVO');
 });
 
 app.listen(port, () => {

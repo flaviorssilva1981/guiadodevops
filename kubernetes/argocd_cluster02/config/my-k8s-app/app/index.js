@@ -13,7 +13,7 @@ app.get('/', (_, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>🚀 App Argo CD + CI/CD</title>
+        <title>🚀 GitHub Actions + Argo CD + CI/CD Pipeline App</title>
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -152,11 +152,11 @@ app.get('/', (_, res) => {
     </head>
     <body>
         <div class="status-indicator">
-            🟢 Sistema Online
+            🟢 System Online
         </div>
         
         <div class="container">
-            <h1>🚀 App Rodando com Argo CD + CI/CD + Ingress NGINX</h1>
+            <h1>🚀 App Running with GitHub Actions + Argo CD + CI/CD + Ingress NGINX</h1>
             
             <div class="devops-image">
                 <div class="dev-text">DEV</div>
@@ -164,8 +164,8 @@ app.get('/', (_, res) => {
             </div>
             
             <div class="description">
-                <p>Sua aplicação DevOps está funcionando perfeitamente! Esta imagem representa o ciclo contínuo de desenvolvimento e operações que sua infraestrutura implementa.</p>
-                <p>O loop infinito simboliza a integração contínua e entrega contínua (CI/CD) que o Argo CD gerencia automaticamente.</p>
+                <p>Your DevOps application is working perfectly! This image represents the continuous cycle of development and operations that your infrastructure implements.</p>
+                <p>The infinite loop symbolizes the continuous integration and continuous delivery (CI/CD) pipeline where GitHub Actions handles CI and Argo CD manages CD automatically.</p>
             </div>
             
             <div class="tech-stack">
@@ -175,6 +175,7 @@ app.get('/', (_, res) => {
                 <span class="tech-item">🐳 Kubernetes</span>
                 <span class="tech-item">🚀 Express.js</span>
                 <span class="tech-item">🎯 DevOps</span>
+                <span class="tech-item">⚙️ GitHub Actions</span>
             </div>
         </div>
     </body>
@@ -185,5 +186,5 @@ app.get('/', (_, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`App rodando na porta ${port}`);
+  console.log(`App running on port ${port}`);
 });

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: docker.io/flaviorssilva/my-app:34dd94b
+          image: docker.io/flaviorssilva/my-app:2deb3e0
           ports:
             - containerPort: 3000
 
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: docker.io/flaviorssilva/my-app:34dd94b
+          image: docker.io/flaviorssilva/my-app:2deb3e0
           ports:
             - containerPort: 3000
 

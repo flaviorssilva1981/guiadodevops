@@ -8,6 +8,66 @@ spec:
   source:
     repoURL: harbor.guiadodevops.com
     targetRevision: 0.0.7
+    helm:
+      values: |
+        # Dashboard (Kibana) Ingress Configuration
+        dashboard:
+          ingress:
+            enabled: true
+            ingressClassName: "nginx"
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt"
+              external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+              external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+            hosts:
+              - host: wazuh-dashboard.guiadodevops.com
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - secretName: wazuh-dashboard-tls
+                hosts:
+                  - wazuh-dashboard.guiadodevops.com
+
+        # Wazuh Manager Master Ingress Configuration (for agent registration)
+        wazuh:
+          master:
+            ingress:
+              agentRegistration:
+                enabled: true
+                ingressClassName: "nginx"
+                annotations:
+                  cert-manager.io/cluster-issuer: "letsencrypt"
+                  external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+                  external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"                
+                hosts:
+                  - host: wazuh-registration.guiadodevops.com
+                    paths:
+                      - path: /
+                        pathType: Prefix
+                tls:
+                  - secretName: wazuh-registration-tls
+                    hosts:
+                      - wazuh-registration.guiadodevops.com
+
+          # Wazuh Manager Worker Ingress Configuration (for agent events)
+          worker:
+            ingress:
+              enabled: true
+              ingressClassName: "nginx"
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt"
+                external-dns.alpha.kubernetes.io/hostname: guiadodevops.com
+                external-dns.alpha.kubernetes.io/cloudflare-proxied: "false" 
+              hosts:
+                - host: wazuh-events.guiadodevops.com
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - secretName: wazuh-events-tls
+                  hosts:
+                    - wazuh-events.guiadodevops.com
     chart: infra/wazuh
   destination:
     server: https://kubernetes.default.svc

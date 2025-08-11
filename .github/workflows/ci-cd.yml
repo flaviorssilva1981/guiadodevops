@@ -22,6 +22,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # -------------------------
+      # 📌 SONARQUBE ANALYSIS STAGE
+      # -------------------------
+      - name: Set up Java (SonarQube scanner requires Java)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+
+      - name: Install SonarQube Scanner
+        run: npm install -g sonarqube-scanner
+
+      - name: Run SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=my-k8s-app \
+            -Dsonar.sources=${{ env.APP_PATH }} \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      - name: Wait for Quality Gate
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+        with:
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+      # If quality gate fails, the job will stop here
+
+      # -------------------------
+      # 🐳 BUILD & PUSH DOCKER IMAGE
+      # -------------------------
       - name: Setup Docker
         uses: docker/setup-buildx-action@v3
 

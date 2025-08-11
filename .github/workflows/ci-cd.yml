@@ -47,9 +47,11 @@ jobs:
 
       - name: Wait for Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-          sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
+          scanMetadataReportFile: ${{ env.APP_PATH }}/.scannerwork/report-task.txt
       # If quality gate fails, the job will stop here
 
       # -------------------------

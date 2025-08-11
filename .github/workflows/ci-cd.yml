@@ -51,7 +51,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
-          scanMetadataReportFile: ${{ env.APP_PATH }}/.scannerwork/report-task.txt
+#          scanMetadataReportFile: ${{ env.APP_PATH }}/.scannerwork/report-task.txt
       # If quality gate fails, the job will stop here
 
       # -------------------------

@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarqube
+  namespace: argocd     
+spec:
+  project: tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2025.3.1
+    helm:
+      values: |-
+        ingress:
+          enabled: true
+          hosts:
+            - name: sonarqube.dublinconsulting.com.br
+              path: /
+              pathType: ImplementationSpecific
+          annotations:
+            kubernetes.io/ingress.class: nginx
+            cert-manager.io/cluster-issuer: "letsencrypt"
+            external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false" 
+          tls:
+            - secretName: sonarqube-tls
+              hosts:
+                - sonarqube.dublinconsulting.com.br
+        monitoringPasscode: "adminadmin123!"
+        community:
+          enabled: true
+    chart: infra/sonarqube
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

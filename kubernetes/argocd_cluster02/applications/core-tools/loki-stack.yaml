@@ -11,7 +11,7 @@ spec:
     helm:
       values: |-
         grafana:
-          enabled: true
+          enabled: false
     chart: infra/loki-stack
   destination:
     server: https://kubernetes.default.svc

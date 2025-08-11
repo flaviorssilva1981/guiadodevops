@@ -12,19 +12,18 @@ spec:
       values: |-
         ingress:
           enabled: true
-          hosts:
-            - name: sonarqube.dublinconsulting.com.br
-              path: /
-              pathType: ImplementationSpecific
+          ingressClassName: nginx
           annotations:
-            kubernetes.io/ingress.class: nginx
             cert-manager.io/cluster-issuer: "letsencrypt"
             external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
-            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false" 
+            external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          hosts:
+            - sonarqube.dublinconsulting.com.br
+          path: /
           tls:
-            - secretName: sonarqube-tls
-              hosts:
-                - sonarqube.dublinconsulting.com.br
+          - secretName: sonarqube-tls
+            hosts:
+              - sonarqube.dublinconsulting.com.br  
         monitoringPasscode: "adminadmin123!"
         community:
           enabled: true

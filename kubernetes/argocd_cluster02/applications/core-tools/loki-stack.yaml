@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-stack
+  namespace: argocd     
+spec:
+  project: core-tools
+  source:
+    repoURL: harbor.guiadodevops.com
+    targetRevision: 2.10.2
+    helm:
+      values: |-
+        grafana:
+          enabled: true
+    chart: infra/loki-stack
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true 
+      selfHeal: true

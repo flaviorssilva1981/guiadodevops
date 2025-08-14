@@ -1,0 +1,74 @@
+## for Terraform
+
+# terraform module
+terraform-provider-aws_v5.98.0_x5
+
+# Terraform state
+*.tfstate
+*.tfstate.backup
+*.tfstate.*
+
+# Crash log
+crash.log
+
+# Ignore terraform plan files
+*.tfplan
+
+# Ignore .terraform directory (where modules and plugins are stored)
+.terraform/
+
+# Ignore override files
+#*.tfvars
+#*.tfvars.json
+
+# Ignore sensitive files
+#terraform.tfvars
+#terraform.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# .terraform.lock.hcl can be committed if using Terraform >= 0.14
+# Uncomment the line below to ignore it (optional)
+.terraform.lock.hcl
+*.pem
+*.ppk
+
+
+
+## Node.js project
+
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+
+# Build outputs
+dist/
+build/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# 
+
+__pycache__/
+*.py[cod]
+.env
+*.env
+*.log
+
+## For a Python project
+```
+providers = {
+  oci = oci
+  oci.home = oci
+}
+```

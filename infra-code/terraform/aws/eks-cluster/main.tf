@@ -1,6 +1,6 @@
 provider "aws" {
   region = "us-east-1"
-  profile = "AdministratorAccess-967710551130"
+  profile = "AdministratorAccess-"
 }
 
 

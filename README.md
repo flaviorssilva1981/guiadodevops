@@ -1,5 +1,5 @@
-# guiadodevops
-Com Terraform, Kuberntes, CI / CD, pipeline com Git Actions, Argo CD, App of apps, Sonar Qube, Granfana, Prometheus, Loki, Trivy, External Secrets, Vault, External DNS, Cloud Flare, Cert Manager, Nginx Ingress Controller usando todo fluxo praticas de DevSecOps.
+# devopsguide
+With Terraform, Kubernetes, CI/CD, pipeline with Git Actions, Argo CD, App of Apps, Sonar Qube, Granfana, Prometheus, Loki, Trivy, External Secrets, Vault, External DNS, Cloud Flare, Cert Manager, Nginx Ingress Controller, using all DevSecOps workflow practices.
 
 ## CI/CD Pipeline
 
@@ -7,17 +7,17 @@ Com Terraform, Kuberntes, CI / CD, pipeline com Git Actions, Argo CD, App of app
 
 ## Overview
 
-Este projeto demonstra uma implementação completa de práticas DevSecOps incluindo:
+This project demonstrates a complete implementation of DevSecOps practices including:
 
-- **Infraestrutura como Código**: Terraform para AWS, GCP e OCI
-- **Orquestração**: Kubernetes com clusters EKS, GKE e OKE
-- **GitOps**: ArgoCD com App of Apps pattern
-- **Monitoramento**: Grafana, Prometheus, Loki
-- **Segurança**: Trivy, Vault, External Secrets
+- **Infrastructure as Code**: Terraform for AWS, GCP and OCI
+- **Orchestration**: Kubernetes with EKS, GKE and OKE clusters
+- **GitOps**: ArgoCD with App of Apps pattern
+- **Monitoring**: Grafana, Prometheus, Loki
+- **Security**: Trivy, Vault, External Secrets
 - **CI/CD**: Jenkins, Git Actions
-- **Qualidade**: SonarQube
+- **Quality**: SonarQube
 - **Ingress**: Nginx Ingress Controller
-- **DNS**: External DNS com Cloudflare
-- **Certificados**: Cert Manager
+- **DNS**: External DNS with Cloudflare
+- **Certificates**: Cert Manager
 
 

@@ -1,6 +1,20 @@
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0.0, < 6.0.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.20.0"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-1"
-  profile = "AdministratorAccess-"
+#  profile = "AdministratorAccess-"
 }
 
 
@@ -26,7 +40,7 @@ module "vpc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.8.5"
+  version = "19.21.0"
 
   cluster_name    = "my-eks-cluster"
   cluster_version = "1.29"
@@ -36,8 +50,8 @@ module "eks" {
   cluster_endpoint_public_access = true
 
   # Grant full access to a user
-
-  enable_cluster_creator_admin_permissions = true
+  # Note: Admin permissions are handled through IAM roles and policies
+  # The cluster creator will have access based on their AWS credentials
 
   eks_managed_node_groups = {
     default = {
@@ -53,6 +67,10 @@ module "eks" {
         AmazonEBSCSIDriverPolicy           = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
         AutoScalingFullAccess              = "arn:aws:iam::aws:policy/AutoScalingFullAccess"
         ElasticLoadBalancingFullAccess     = "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"
+        AmazonS3FullAccess                 = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+        AmazonVPCFullAccess                = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+        AmazonEC2FullAccess                = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+        AmazonRDSFullAccess                = "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
       }
       
     }
@@ -88,7 +106,7 @@ module "eks" {
       from_port               = 443
       to_port                 = 443
       protocol                = "tcp"
-      cidr_blocks             = ["177.62.168.223/32"]
+      cidr_blocks             = ["187.89.120.161/32"]
       description             = "Allow kubectl access from my IP"
     }
   }

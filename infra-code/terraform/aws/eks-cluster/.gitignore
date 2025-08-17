@@ -34,9 +34,7 @@ override.tf.json
 .terraform.lock.hcl
 *.pem
 *.ppk
-*.pem.pub
-*.pub.pem
-*.pub
+
 
 
 ## Node.js project

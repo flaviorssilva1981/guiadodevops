@@ -1,0 +1,383 @@
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: VPC
+metadata:
+  name: crossplane-prod-vpc
+spec:
+  forProvider:
+    region: us-east-1
+    cidrBlock: 10.0.0.0/16
+    enableDnsSupport: true
+    enableDnsHostnames: true
+    tags:
+      Name: "Crossplane Production VPC"
+      Purpose: "Production Infrastructure"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: crossplane-prod-igw
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    tags:
+      Name: "Crossplane Production IGW"
+      Purpose: "Internet Gateway"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: crossplane-prod-public-subnet-1
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    availabilityZone: us-east-1a
+    cidrBlock: 10.0.1.0/24
+    mapPublicIpOnLaunch: true
+    tags:
+      Name: "Crossplane Production Public Subnet 1a"
+      Purpose: "Public Subnet for NAT Gateway"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+      Type: "Public"
+      AZ: "us-east-1a"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: crossplane-prod-public-subnet-2
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    availabilityZone: us-east-1b
+    cidrBlock: 10.0.2.0/24
+    mapPublicIpOnLaunch: true
+    tags:
+      Name: "Crossplane Production Public Subnet 1b"
+      Purpose: "Public Subnet"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+      Type: "Public"
+      AZ: "us-east-1b"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: crossplane-prod-private-subnet-1
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    availabilityZone: us-east-1a
+    cidrBlock: 10.0.3.0/24
+    mapPublicIpOnLaunch: false
+    tags:
+      Name: "Crossplane Production Private Subnet 1a"
+      Purpose: "Private Subnet for RDS/EC2"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+      Type: "Private"
+      AZ: "us-east-1a"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Subnet
+metadata:
+  name: crossplane-prod-private-subnet-2
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    availabilityZone: us-east-1b
+    cidrBlock: 10.0.4.0/24
+    mapPublicIpOnLaunch: false
+    tags:
+      Name: "Crossplane Production Private Subnet 1b"
+      Purpose: "Private Subnet for RDS/EC2"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+      Type: "Private"
+      AZ: "us-east-1b"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: EIP
+metadata:
+  name: crossplane-prod-nat-eip
+spec:
+  forProvider:
+    region: us-east-1
+    tags:
+      Name: "Crossplane Production NAT EIP"
+      Purpose: "NAT Gateway Elastic IP"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: NATGateway
+metadata:
+  name: crossplane-prod-nat
+spec:
+  forProvider:
+    region: us-east-1
+    allocationIdRef:
+      name: crossplane-prod-nat-eip
+    subnetIdRef:
+      name: crossplane-prod-public-subnet-1
+    tags:
+      Name: "Crossplane Production NAT Gateway"
+      Purpose: "NAT Gateway for Private Subnets"
+      Environment: "Production"
+      ManagedBy: "Crossplane"
+      Project: "guiadodevops"
+      Owner: "DevOps Team"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTable
+metadata:
+  name: crossplane-prod-public-rt
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Route
+metadata:
+  name: crossplane-prod-public-route
+spec:
+  forProvider:
+    region: us-east-1
+    routeTableIdRef:
+      name: crossplane-prod-public-rt
+    destinationCidrBlock: 0.0.0.0/0
+    gatewayIdRef:
+      name: crossplane-prod-igw
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTableAssociation
+metadata:
+  name: crossplane-prod-public-rta-1
+spec:
+  forProvider:
+    region: us-east-1
+    routeTableIdRef:
+      name: crossplane-prod-public-rt
+    subnetIdRef:
+      name: crossplane-prod-public-subnet-1
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTableAssociation
+metadata:
+  name: crossplane-prod-public-rta-2
+spec:
+  forProvider:
+    region: us-east-1
+    routeTableIdRef:
+      name: crossplane-prod-public-rt
+    subnetIdRef:
+      name: crossplane-prod-public-subnet-2
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTable
+metadata:
+  name: crossplane-prod-private-rt
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Route
+metadata:
+  name: crossplane-prod-private-route
+spec:
+  forProvider:
+    region: us-east-1
+    routeTableIdRef:
+      name: crossplane-prod-private-rt
+    destinationCidrBlock: 0.0.0.0/0
+    natGatewayIdRef:
+      name: crossplane-prod-nat
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTableAssociation
+metadata:
+  name: crossplane-prod-private-rta-1
+spec:
+  forProvider:
+    region: us-east-1
+    routeTableIdRef:
+      name: crossplane-prod-private-rt
+    subnetIdRef:
+      name: crossplane-prod-private-subnet-1
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: RouteTableAssociation
+metadata:
+  name: crossplane-prod-private-rta-2
+spec:
+  forProvider:
+    region: us-east-1
+    routeTableIdRef:
+      name: crossplane-prod-private-rt
+    subnetIdRef:
+      name: crossplane-prod-private-subnet-2
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: SecurityGroup
+metadata:
+  name: crossplane-prod-public-sg
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    description: Security group for public subnets
+    tags:
+      Name: "Crossplane Prod Public SG"
+      Purpose: "Public Subnet Security Group"
+  providerConfigRef:
+    name: default
+---
+# Public Security Group Inbound Rules
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: SecurityGroupIngressRule
+metadata:
+  name: crossplane-prod-public-sg-inbound
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: crossplane-prod-public-sg
+    ipProtocol: "-1"
+    fromPort: 0
+    toPort: 65535
+    cidrIpv4: "0.0.0.0/0"
+  providerConfigRef:
+    name: default
+---
+# Public Security Group Outbound Rules
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: SecurityGroupEgressRule
+metadata:
+  name: crossplane-prod-public-sg-outbound
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: crossplane-prod-public-sg
+    ipProtocol: "-1"
+    fromPort: 0
+    toPort: 65535
+    cidrIpv4: "0.0.0.0/0"
+  providerConfigRef:
+    name: default
+---
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: SecurityGroup
+metadata:
+  name: crossplane-prod-private-sg
+spec:
+  forProvider:
+    region: us-east-1
+    vpcIdRef:
+      name: crossplane-prod-vpc
+    description: Security group for private subnets
+    tags:
+      Name: "Crossplane Prod Private SG"
+      Purpose: "Private Subnet Security Group"
+  providerConfigRef:
+    name: default
+---
+# Private Security Group Inbound Rules
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: SecurityGroupIngressRule
+metadata:
+  name: crossplane-prod-private-sg-inbound
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: crossplane-prod-private-sg
+    ipProtocol: "-1"
+    fromPort: 0
+    toPort: 65535
+    cidrIpv4: "0.0.0.0/0"
+  providerConfigRef:
+    name: default
+---
+# Private Security Group Outbound Rules
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: SecurityGroupEgressRule
+metadata:
+  name: crossplane-prod-private-sg-outbound
+spec:
+  forProvider:
+    region: us-east-1
+    securityGroupIdRef:
+      name: crossplane-prod-private-sg
+    ipProtocol: "-1"
+    fromPort: 0
+    toPort: 65535
+    cidrIpv4: "0.0.0.0/0"
+  providerConfigRef:
+    name: default

@@ -14,8 +14,17 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argo-rollouts
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /status
+    - /metadata/annotations
+    - /spec/conversion/webhook/clientConfig/caBundle
   syncPolicy:
     automated:
       prune: true
       allowEmpty: true       
       selfHeal: true
+    syncOptions:
+    - RespectIgnoreDifferences=true

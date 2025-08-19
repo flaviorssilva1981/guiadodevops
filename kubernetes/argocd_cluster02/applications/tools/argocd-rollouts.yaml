@@ -20,6 +20,15 @@ spec:
     jsonPointers:
     - /status
     - /metadata/annotations
+    - /metadata/labels
+    - /spec/conversion
+    - /spec/preserveUnknownFields
+    - /spec/versions/0/additionalPrinterColumns
+    - /spec/versions/0/schema/openAPIV3Schema
+    - /spec/versions/1/additionalPrinterColumns
+    - /spec/versions/1/schema/openAPIV3Schema
+    - /spec/versions/2/additionalPrinterColumns
+    - /spec/versions/2/schema/openAPIV3Schema
     - /spec/conversion/webhook/clientConfig/caBundle
   syncPolicy:
     automated:

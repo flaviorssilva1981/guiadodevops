@@ -19,6 +19,9 @@ spec:
         image: docker.io/istio/proxyv2:1.23.0
         podAnnotations:
           sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:1.23.0
+        autoscaling:
+          enabled: false
+          minReplicas: 1
         service:
           type: LoadBalancer
           annotations:

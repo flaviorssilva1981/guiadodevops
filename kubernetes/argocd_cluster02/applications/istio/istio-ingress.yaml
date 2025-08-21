@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-ingress-gateway
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: core-tools
+  source:
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: gateway
+    targetRevision: 1.23.0
+    helm:
+      values: |
+        service:
+          type: LoadBalancer
+          annotations:
+            # OCI LB (keep/adjust to your taste)
+            service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"   
+            service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa6ppmwl3fglylf6p74dygvwpn75vo7ufcfqx2ly54e55dpvca7oma"     
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }

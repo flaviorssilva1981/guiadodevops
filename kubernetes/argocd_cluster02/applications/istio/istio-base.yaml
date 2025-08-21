@@ -17,6 +17,7 @@ spec:
       name: istiod-default-validator
       jqPathExpressions:
         - .webhooks[].clientConfig.caBundle
+        - .webhooks[].failurePolicy
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system

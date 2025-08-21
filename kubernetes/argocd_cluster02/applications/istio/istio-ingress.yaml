@@ -13,6 +13,12 @@ spec:
     targetRevision: 1.23.0
     helm:
       values: |
+        global:
+          hub: docker.io/istio
+          tag: 1.23.0
+        image: docker.io/istio/proxyv2:1.23.0
+        podAnnotations:
+          sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:1.23.0
         service:
           type: LoadBalancer
           annotations:

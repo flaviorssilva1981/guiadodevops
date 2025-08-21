@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boutique-app
+  namespace: argocd
+spec:
+  project: my-app
+  source:
+    repoURL: https://github.com/flaviorssilva1981/guiadodevops.git
+    targetRevision: main
+    path: kubernetes/argocd_cluster02/config/boutique-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: boutique
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true       
+      selfHeal: true

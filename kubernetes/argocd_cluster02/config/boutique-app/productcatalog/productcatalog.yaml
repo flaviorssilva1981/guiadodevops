@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productcatalog
+  namespace: boutique
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: productcatalog
+  template:
+    metadata:
+      labels:
+        app: productcatalog
+    spec:
+      containers:
+        - name: productcatalog
+          image: gcr.io/google-samples/microservices-demo/productcatalogservice:v0.8.0
+          ports:
+            - containerPort: 3550

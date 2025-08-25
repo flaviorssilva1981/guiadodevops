@@ -26,9 +26,8 @@ spec:
       hosts:
         - boutique.dublinconsulting.com.br
       tls:
-        - hosts:
-            - boutique.dublinconsulting.com.br
-          secretName: boutique-tls  
+        mode: SIMPLE
+        secretName: boutique-tls
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService

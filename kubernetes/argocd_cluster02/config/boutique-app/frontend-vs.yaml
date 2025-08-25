@@ -27,7 +27,7 @@ spec:
         - boutique.dublinconsulting.com.br
       tls:
         mode: SIMPLE
-        secretName: boutique-tls
+        credentialName: tls-boutique
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -45,3 +45,4 @@ spec:
             host: frontend-active.boutique.svc.cluster.local
             port:
               number: 80
+##test

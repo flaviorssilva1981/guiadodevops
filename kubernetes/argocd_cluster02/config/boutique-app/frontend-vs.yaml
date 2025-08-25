@@ -3,6 +3,10 @@ kind: Gateway
 metadata:
   name: boutique-gateway
   namespace: boutique
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    external-dns.alpha.kubernetes.io/hostname: boutique.dublinconsulting.com.br
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   selector:
     istio: ingressgateway
@@ -14,7 +18,7 @@ spec:
       hosts:
         - boutique.dublinconsulting.com.br
       tls:
-        httpsRedirect: true
+        httpsRedirect: false
     - port:
         number: 443
         name: https

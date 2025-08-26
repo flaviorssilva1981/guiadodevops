@@ -20,8 +20,3 @@ spec:
     - selector:
         dnsZones:
         - dublinconsulting.com.br
-      dns01:
-        cloudflare:
-          apiTokenSecretRef:
-            name: external-dns-provider-cloudflare
-            key: CF_API_TOKEN

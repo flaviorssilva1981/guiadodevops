@@ -17,6 +17,4 @@ spec:
     - http01:
         ingress:
           ingressClassName: nginx
-    - selector:
-        dnsZones:
-        - dublinconsulting.com.br
+

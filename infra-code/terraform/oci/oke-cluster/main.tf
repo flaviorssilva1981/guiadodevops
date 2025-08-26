@@ -26,7 +26,7 @@ module "oke_cluster" {
   # Worker pool configuration
   worker_pools = {
     "default-pool" = {
-      size = 2
+      size = 3
       shape = "VM.Standard.E4.Flex"
       ocpus = 2
       memory = 16

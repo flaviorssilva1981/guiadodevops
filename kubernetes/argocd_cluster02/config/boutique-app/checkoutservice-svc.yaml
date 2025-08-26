@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkoutservice
+  namespace: boutique
+spec:
+  selector:
+    app: checkoutservice
+  ports:
+    - port: 5050
+      targetPort: 5050
+

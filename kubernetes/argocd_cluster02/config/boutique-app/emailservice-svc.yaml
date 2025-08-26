@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: emailservice
+  namespace: boutique
+spec:
+  selector:
+    app: emailservice
+  ports:
+    - port: 8080
+      targetPort: 8080
+

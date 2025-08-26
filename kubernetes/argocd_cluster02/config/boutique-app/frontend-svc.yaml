@@ -1,19 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-active
-spec:
-  selector:
-    app: frontend
-  ports:
-  - port: 80
-    targetPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-preview
-  namespace: boutique
+  name: frontend
 spec:
   selector:
     app: frontend

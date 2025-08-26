@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cartservice
+  namespace: boutique
+spec:
+  selector:
+    app: cartservice
+  ports:
+    - port: 7070
+      targetPort: 7070
+

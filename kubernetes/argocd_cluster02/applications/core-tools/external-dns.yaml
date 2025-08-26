@@ -40,8 +40,6 @@ spec:
         sources:
           - service
           - ingress
-          - istio-gateway
-          - istio-virtualservice
 
         # Registry type for tracking ownership
         registry: txt

@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: frontend-active
+                name: frontend
                 port:
                   number: 80

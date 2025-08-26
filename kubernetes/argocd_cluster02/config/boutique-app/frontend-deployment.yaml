@@ -1,5 +1,5 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: frontend
   namespace: boutique
@@ -8,11 +8,6 @@ spec:
   selector:
     matchLabels:
       app: frontend
-  strategy:
-    blueGreen:
-      activeService: frontend-active
-      previewService: frontend-preview
-      autoPromotionEnabled: true
   template:
     metadata:
       labels:

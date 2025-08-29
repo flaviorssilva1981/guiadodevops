@@ -1,6 +1,6 @@
 🚀 Istio in action: securing the Boutique microservices app
 
-![Boutique microservices architecture](./microservices4.jpg)
+![Boutique microservices architecture](./microservices5.png)
 
 Recently, I worked on applying Istio service mesh to the Boutique demo app, and here’s how I secured service-to-service communication:
 

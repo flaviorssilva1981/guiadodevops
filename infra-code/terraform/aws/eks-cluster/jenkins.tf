@@ -1,5 +1,6 @@
+
 ### Create EC2 - JENKINS
-/*
+
 resource "aws_instance" "jenkins" {
   ami           = var.ami-jenkins
   instance_type = var.instance-type
@@ -23,4 +24,4 @@ resource "aws_eip_association" "eip_assoc" {
 resource "aws_key_pair" "jenkins" {
   key_name   = "jenkins"               # The name of your key pair
   public_key = file("/mnt/c/guga/projetos/eks/eks02/jenkins.pub")   # Path to your public key file
-}*/
+}

@@ -8,7 +8,7 @@ variable "ami-jenkins" {
 ## Instance Type
 
 variable "instance-type" {
-  default = "t3.small"
+  default = "m5.large"
 }
 
 
@@ -33,5 +33,5 @@ variable "instance-name" {
 ## Elastic Public IP Association
 variable "eip_allocation_id" {
   type        = string
-  default     = "eipalloc-0bdd952a7553bf694"
+  default     = "eipalloc-01a7c02e3f53ff46c"
 }

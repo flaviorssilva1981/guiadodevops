@@ -3,7 +3,7 @@ With Terraform, Kubernetes, CI/CD, pipeline with Git Actions, Argo CD, App of Ap
 
 ## CI/CD Pipeline
 
-![CI/CD Pipeline](ci_cd_pipeline.jpeg)
+![CI/CD Pipeline](./ci_cd_pipeline.jpeg)
 
 ## Overview
 

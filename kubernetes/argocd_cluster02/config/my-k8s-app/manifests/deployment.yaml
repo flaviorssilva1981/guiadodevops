@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: docker.io/flaviorssilva/my-app:a0b58b7
+          image: docker.io/flaviorssilva/my-app:dc1b0f2
           ports:
             - containerPort: 3000
   strategy:

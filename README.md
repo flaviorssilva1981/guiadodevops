@@ -1,4 +1,4 @@
-# devopsguide
+# Devopsguide 2025
 With Terraform, Kubernetes, CI/CD, pipeline with Git Actions, Argo CD, App of Apps, Sonar Qube, Granfana, Prometheus, Loki, Trivy, External Secrets, Vault, External DNS, Cloud Flare, Cert Manager, Nginx Ingress Controller, using all DevSecOps workflow practices.
 
 ## CI/CD Pipeline

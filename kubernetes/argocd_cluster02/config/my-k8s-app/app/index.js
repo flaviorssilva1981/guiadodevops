@@ -156,7 +156,7 @@ app.get('/', (_, res) => {
         </div>
         
         <div class="container">
-            <h1>🚀 App Running with GitHub Actions + Argo CD + CI/CD + Ingress NGINX  2026  </h1>
+            <h1>🚀 App Running with GitHub Actions + Argo CD + CI/CD + Ingress NGINX  2026 SPFC  </h1>
             
             <div class="devops-image">
                 <div class="dev-text">DEV</div>

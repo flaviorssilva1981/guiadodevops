@@ -13,7 +13,7 @@ app.get('/', (_, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>🚀 GitHub Actions + Argo CD + CI/CD Pipeline App 2025</title>
+        <title>🚀 GitHub Actions + Argo CD + CI/CD Pipeline App </title>
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -156,7 +156,7 @@ app.get('/', (_, res) => {
         </div>
         
         <div class="container">
-            <h1>🚀 App Running with GitHub Actions + Argo CD + CI/CD + Ingress NGINX 2025   </h1>
+            <h1>🚀 App Running with GitHub Actions + Argo CD + CI/CD + Ingress NGINX    </h1>
             
             <div class="devops-image">
                 <div class="dev-text">DEV</div>

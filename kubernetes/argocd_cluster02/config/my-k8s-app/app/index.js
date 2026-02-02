@@ -13,7 +13,7 @@ app.get('/', (_, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>🚀 GitHub Actions + Argo CD + CI/CD Pipeline App 2025</title>
+        <title>🚀 GitHub Actions + Argo CD + CI/CD Pipeline App </title>
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

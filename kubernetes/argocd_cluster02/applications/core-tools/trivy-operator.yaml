@@ -11,6 +11,7 @@ spec:
     chart: infra/trivy-operator
     helm:
       values: |-
+        excludeNamespaces: "istio-system,kube-system"
         operator:
           metrics:
             enabled: true
@@ -23,7 +24,7 @@ spec:
           scannerReportTTL: 24h
         trivyOperator:
           scanJobCompressLogs: true
-          excludeImages: "quay.io/kiwigrid/k8s-sidecar:*"
+          excludeImages: "quay.io/kiwigrid/k8s-sidecar:*,auto,docker.io/istio/*"
         trivy:
           timeout: 15m0s
           slow: true

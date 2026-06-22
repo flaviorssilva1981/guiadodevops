@@ -14,6 +14,16 @@ spec:
         operator:
           metrics:
             enabled: true
+          scanJobTimeout: 15m
+        trivy:
+          timeout: 15m0s
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 2Gi
         service:
           metricsPort: 8080
         prometheus:
@@ -33,5 +43,4 @@ spec:
       prune: true
       allowEmpty: true 
       selfHeal: true
-## test git local
 

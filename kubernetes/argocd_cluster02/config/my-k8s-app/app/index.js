@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+// ci: sonarqube pipeline connectivity test 2026-06-22
 const app = express();
 const port = 3000;
 

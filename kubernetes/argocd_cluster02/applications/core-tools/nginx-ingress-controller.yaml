@@ -10,6 +10,18 @@ spec:
     targetRevision: 11.6.27
     helm:
       values: |-
+        global:
+          security:
+            allowInsecureImages: true
+        image:
+          registry: docker.io
+          repository: bitnamilegacy/nginx-ingress-controller
+          tag: 1.12.3-debian-12-r9
+        defaultBackend:
+          image:
+            registry: docker.io
+            repository: bitnamilegacy/nginx
+            tag: 1.29.0-debian-12-r2
         replicaCount: 3
         publishService:
           enabled: true

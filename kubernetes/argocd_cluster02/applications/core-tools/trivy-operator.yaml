@@ -24,7 +24,7 @@ spec:
           scannerReportTTL: 24h
         trivyOperator:
           scanJobCompressLogs: true
-          excludeImages: "quay.io/kiwigrid/k8s-sidecar:*,auto,docker.io/istio/*,docker.io/bitnami/postgresql:11.*"
+          excludeImages: "quay.io/kiwigrid/k8s-sidecar:*,auto,docker.io/istio/*,docker.io/bitnami/*"
         trivy:
           timeout: 15m0s
           slow: true

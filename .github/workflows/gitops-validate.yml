@@ -1,0 +1,61 @@
+name: GitOps - Validate Argo CD Manifests
+
+# Argo CD deploys changes under kubernetes/argocd_cluster02/applications/
+# directly (app-of-apps). This workflow validates YAML on push so GitHub
+# Actions shows a run for GitOps-only changes (e.g. trivy-operator helm values).
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'kubernetes/argocd_cluster02/applications/**'
+      - 'kubernetes/argocd_cluster02/appofapps/**'
+      - 'kubernetes/argocd_cluster02/config/**'
+
+jobs:
+  validate-manifests:
+    name: Validate GitOps manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate YAML files
+        run: |
+          python - <<'PY'
+          import pathlib
+          import sys
+
+          try:
+              import yaml
+          except ImportError:
+              import subprocess
+              subprocess.check_call([sys.executable, "-m", "pip", "install", "pyyaml"])
+              import yaml
+
+          roots = [
+              pathlib.Path("kubernetes/argocd_cluster02/applications"),
+              pathlib.Path("kubernetes/argocd_cluster02/appofapps"),
+              pathlib.Path("kubernetes/argocd_cluster02/config"),
+          ]
+          errors = 0
+          checked = 0
+          for root in roots:
+              if not root.exists():
+                  continue
+              for path in root.rglob("*.yaml"):
+                  checked += 1
+                  try:
+                      list(yaml.safe_load_all(path.read_text(encoding="utf-8")))
+                  except Exception as exc:
+                      errors += 1
+                      print(f"FAIL {path}: {exc}")
+          print(f"Checked {checked} YAML file(s)")
+          if errors:
+              sys.exit(1)
+          PY
+
+      - name: Summary
+        run: |
+          echo "GitOps manifests are valid."
+          echo "Argo CD app-of-apps will sync these changes automatically (selfHeal enabled)."

@@ -8,6 +8,7 @@ on:
   push:
     branches: [main, dev]
     paths:
+      - '.github/workflows/gitops-validate.yml'
       - 'kubernetes/argocd_cluster02/applications/**'
       - 'kubernetes/argocd_cluster02/appofapps/**'
       - 'kubernetes/argocd_cluster02/config/**'

@@ -10,14 +10,6 @@ spec:
     targetRevision: 2025.3.1
     helm:
       values: |-
-        global:
-          security:
-            allowInsecureImages: true
-        postgresql:
-          image:
-            registry: docker.io
-            repository: bitnamilegacy/postgresql
-            tag: 11.14.0-debian-10-r22
         ingress:
           enabled: true
           hosts:

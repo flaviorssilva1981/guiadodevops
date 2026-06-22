@@ -15,15 +15,26 @@ spec:
           metrics:
             enabled: true
           scanJobTimeout: 15m
+          scanJobTTL: 1h
+          scanJobsConcurrentLimit: 5
+          scanJobsRetryDelay: 5m
+          vulnerabilityScannerScanOnlyCurrentRevisions: true
+          sbomGenerationEnabled: false
+          scannerReportTTL: 24h
+        trivyOperator:
+          scanJobCompressLogs: true
+          excludeImages: "quay.io/kiwigrid/k8s-sidecar:*"
         trivy:
           timeout: 15m0s
+          slow: true
+          severity: HIGH,CRITICAL
           resources:
             requests:
               cpu: 200m
               memory: 512Mi
             limits:
               cpu: 1000m
-              memory: 2Gi
+              memory: 3Gi
         service:
           metricsPort: 8080
         prometheus:
@@ -43,4 +54,3 @@ spec:
       prune: true
       allowEmpty: true 
       selfHeal: true
-

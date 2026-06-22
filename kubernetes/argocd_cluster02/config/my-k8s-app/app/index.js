@@ -153,11 +153,11 @@ app.get('/', (_, res) => {
     </head>
     <body>
         <div class="status-indicator">
-            🟢 System Online
+            🟢 Pipeline test — updated 22 Jun 2026
         </div>
         
         <div class="container">
-            <h1>🚀 App Running with GitHub Actions + Argo CD + CI/CD + Ingress NGINX  SPFC  </h1>
+            <h1>🚀 DevOps Demo App — CI/CD + SonarQube + Argo CD</h1>
             
             <div class="devops-image">
                 <div class="dev-text">DEV</div>

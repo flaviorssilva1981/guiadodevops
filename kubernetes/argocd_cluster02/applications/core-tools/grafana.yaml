@@ -31,6 +31,8 @@ spec:
           size: 10Gi
           accessModes:
             - ReadWriteOnce
+        readinessProbe:
+          initialDelaySeconds: 15
         sidecar:
           alerts:
             enabled: true

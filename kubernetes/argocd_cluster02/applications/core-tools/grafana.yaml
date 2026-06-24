@@ -11,6 +11,8 @@ spec:
     helm:
       values: |-
         replicaCount: 1
+        readinessProbe:
+          initialDelaySeconds: 15
         ingress:
           enabled: true
           ingressClassName: nginx

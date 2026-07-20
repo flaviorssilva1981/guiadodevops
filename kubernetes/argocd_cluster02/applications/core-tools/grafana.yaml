@@ -11,6 +11,9 @@ spec:
     helm:
       values: |-
         replicaCount: 1
+        # RWO PVC (oci-bv) cannot multi-attach across nodes during RollingUpdate
+        deploymentStrategy:
+          type: Recreate
         readinessProbe:
           initialDelaySeconds: 15
         ingress:

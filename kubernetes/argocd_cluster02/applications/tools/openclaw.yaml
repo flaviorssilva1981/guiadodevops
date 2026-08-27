@@ -1,0 +1,168 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openclaw
+  namespace: argocd
+spec:
+  project: tools
+  source:
+    # NOTE: sourced directly from the community chart repo (not harbor.guiadodevops.com/infra/*
+    # like other Helm apps in this cluster) because this chart is not yet mirrored into Harbor.
+    # To align with cluster convention later: mirror serhanekicii/openclaw-helm into
+    # harbor.guiadodevops.com/infra/openclaw and swap repoURL/chart back to the harbor pattern.
+    repoURL: https://serhanekicii.github.io/openclaw-helm
+    targetRevision: 1.5.40
+    chart: openclaw
+    helm:
+      values: |-
+        app-template:
+          # merge preserves runtime state (paired devices, UI settings) across syncs;
+          # see the ignoreDifferences block below, which keeps ArgoCD from fighting that state.
+          configMode: merge
+          # No ClawHub skills auto-installed on startup (least-privilege default).
+          skills: []
+          defaultPodOptions:
+            annotations:
+              reloader.stakater.com/auto: "true"
+          controllers:
+            main:
+              containers:
+                main:
+                  envFrom:
+                    - secretRef:
+                        name: openclaw-env-secret
+                chromium:
+                  # Browser automation not needed for a Telegram chat agent; disabled to cut
+                  # resource use and attack surface.
+                  enabled: false
+          configMaps:
+            config:
+              data:
+                openclaw.json: |
+                  {
+                    "gateway": {
+                      "port": 18789,
+                      "mode": "local",
+                      "trustedProxies": ["10.0.0.1"]
+                    },
+
+                    "browser": {
+                      "enabled": false
+                    },
+
+                    "agents": {
+                      "defaults": {
+                        "workspace": "/home/node/.openclaw/workspace",
+                        "model": {
+                          "primary": "requesty/anthropic/claude-sonnet-5"
+                        },
+                        "userTimezone": "UTC",
+                        "timeoutSeconds": 600,
+                        "maxConcurrent": 1
+                      },
+                      "list": [
+                        {
+                          "id": "chaves",
+                          "default": true,
+                          "identity": {
+                            "name": "Chaves",
+                            "emoji": "👔"
+                          }
+                        }
+                      ]
+                    },
+
+                    "models": {
+                      "providers": {
+                        "requesty": {
+                          "baseUrl": "https://router.requesty.ai",
+                          "apiKey": "${REQUESTY_API_KEY}",
+                          "api": "anthropic-messages",
+                          "models": [
+                            {
+                              "id": "anthropic/claude-sonnet-5",
+                              "name": "Claude Sonnet 5 (via Requesty)",
+                              "contextWindow": 1000000,
+                              "maxTokens": 128000
+                            }
+                          ]
+                        }
+                      }
+                    },
+
+                    "session": {
+                      "scope": "per-sender",
+                      "store": "/home/node/.openclaw/sessions",
+                      "reset": {
+                        "mode": "idle",
+                        "idleMinutes": 60
+                      }
+                    },
+
+                    "logging": {
+                      "level": "info",
+                      "consoleLevel": "info",
+                      "consoleStyle": "compact",
+                      "redactSensitive": "tools"
+                    },
+
+                    "tools": {
+                      "profile": "full",
+                      "web": {
+                        "search": {
+                          "enabled": false
+                        },
+                        "fetch": {
+                          "enabled": true
+                        }
+                      }
+                    },
+
+                    "channels": {
+                      "telegram": {
+                        "botToken": "${TELEGRAM_BOT_TOKEN}",
+                        "enabled": true
+                      }
+                    }
+                  }
+          ingress:
+            main:
+              enabled: true
+              className: nginx
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt"
+                external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
+                external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+                nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+                nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+              hosts:
+                - host: openclaw.dublinconsulting.com.br
+                  paths:
+                    - path: /
+                      pathType: Prefix
+                      service:
+                        identifier: main
+                        port: http
+              tls:
+                - secretName: openclaw-tls
+                  hosts:
+                    - openclaw.dublinconsulting.com.br
+          persistence:
+            data:
+              storageClass: oci-bv
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ai-agents
+  ignoreDifferences:
+    - group: ""
+      kind: ConfigMap
+      name: openclaw
+      jsonPointers:
+        - /data
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

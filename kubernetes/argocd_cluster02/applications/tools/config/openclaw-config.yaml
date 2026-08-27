@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openclaw-config
+  namespace: argocd
+spec:
+  project: tools
+  source:
+    repoURL: https://github.com/flaviorssilva1981/guiadodevops.git
+    path: kubernetes/argocd_cluster02/config/tools/openclaw-config
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ai-agents
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

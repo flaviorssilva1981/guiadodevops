@@ -31,6 +31,17 @@ spec:
                   envFrom:
                     - secretRef:
                         name: openclaw-env-secret
+                  # Bumped from the chart default (200m/512Mi, sized for a single agent)
+                  # to cover multiple agents running concurrently in this single-instance
+                  # gateway (OpenClaw does not support horizontal scaling, so capacity for
+                  # more agents.list entries must come from tuning this vertically).
+                  resources:
+                    requests:
+                      cpu: 500m
+                      memory: 1Gi
+                    limits:
+                      cpu: "4"
+                      memory: 4Gi
                 chromium:
                   # Browser automation not needed for a Telegram chat agent; disabled to cut
                   # resource use and attack surface.
@@ -65,7 +76,7 @@ spec:
                         },
                         "userTimezone": "UTC",
                         "timeoutSeconds": 600,
-                        "maxConcurrent": 1
+                        "maxConcurrent": 3
                       },
                       "list": [
                         {

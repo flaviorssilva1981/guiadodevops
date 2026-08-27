@@ -43,7 +43,14 @@ spec:
                     "gateway": {
                       "port": 18789,
                       "mode": "local",
-                      "trustedProxies": ["10.0.0.1"]
+                      "trustedProxies": ["10.0.0.1"],
+                      "controlUi": {
+                        "allowedOrigins": [
+                          "https://openclaw.dublinconsulting.com.br",
+                          "http://localhost:18789",
+                          "http://127.0.0.1:18789"
+                        ]
+                      }
                     },
 
                     "browser": {

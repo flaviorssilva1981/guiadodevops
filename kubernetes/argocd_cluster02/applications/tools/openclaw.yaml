@@ -108,7 +108,7 @@ spec:
                       "defaults": {
                         "workspace": "/home/node/.openclaw/workspace",
                         "model": {
-                          "primary": "requesty/anthropic/claude-sonnet-5"
+                          "primary": "anthropic/claude-sonnet-5"
                         },
                         "userTimezone": "UTC",
                         "timeoutSeconds": 600,
@@ -128,16 +128,16 @@ spec:
 
                     "models": {
                       "providers": {
-                        "requesty": {
-                          "baseUrl": "https://router.requesty.ai",
-                          "apiKey": "${REQUESTY_API_KEY}",
+                        "anthropic": {
+                          "baseUrl": "https://api.anthropic.com",
+                          "apiKey": "${ANTHROPIC_API_KEY}",
                           "api": "anthropic-messages",
                           "models": [
                             {
-                              "id": "anthropic/claude-sonnet-5",
-                              "name": "Claude Sonnet 5 (via Requesty)",
-                              "contextWindow": 1000000,
-                              "maxTokens": 128000
+                              "id": "claude-sonnet-5",
+                              "name": "Claude Sonnet 5",
+                              "contextWindow": 200000,
+                              "maxTokens": 64000
                             }
                           ]
                         }

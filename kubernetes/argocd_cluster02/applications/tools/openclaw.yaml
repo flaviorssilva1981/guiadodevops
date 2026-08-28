@@ -126,7 +126,65 @@ spec:
                           "identity": {
                             "name": "Chaves",
                             "emoji": "👔"
-                          }
+                          },
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "chiquinha",
+                          "name": "Chiquinha",
+                          "workspace": "/home/node/.openclaw/workspaces/chiquinha",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "dona-florinda",
+                          "name": "Dona Florinda",
+                          "workspace": "/home/node/.openclaw/workspaces/dona-florinda",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "kiko",
+                          "name": "Kiko",
+                          "workspace": "/home/node/.openclaw/workspaces/kiko",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "senhor-barriga",
+                          "name": "Senhor Barriga",
+                          "workspace": "/home/node/.openclaw/workspaces/senhor-barriga",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "professor-girafales",
+                          "name": "Professor Girafales",
+                          "workspace": "/home/node/.openclaw/workspaces/professor-girafales",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "seu-madruga",
+                          "name": "Seu Madruga",
+                          "workspace": "/home/node/.openclaw/workspaces/seu-madruga",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "bruxa-do-71",
+                          "name": "Bruxa do 71",
+                          "workspace": "/home/node/.openclaw/workspaces/bruxa-do-71",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                        },
+                        {
+                          "id": "chapolin",
+                          "name": "Chapolin",
+                          "workspace": "/home/node/.openclaw/workspaces/chapolin",
+                          "tools": { "profile": "full" },
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         }
                       ]
                     },
@@ -170,6 +228,13 @@ spec:
 
                     "tools": {
                       "profile": "full",
+                      "agentToAgent": {
+                        "enabled": true,
+                        "allow": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"]
+                      },
+                      "sessions": {
+                        "visibility": "all"
+                      },
                       "web": {
                         "search": {
                           "enabled": false

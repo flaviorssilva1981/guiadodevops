@@ -260,9 +260,35 @@ spec:
                       }
                     }
                   }
+          # Second Service for the Claw3D Studio (github.com/iamlukethedev/Claw3D).
+          # Claw3D is not part of this chart - it is installed once onto the PVC and
+          # runs as an unmanaged sidecar *process* inside the openclaw pod, bound to
+          # 0.0.0.0:3001 (HOST=0.0.0.0, TUNNEL_ENABLED=0 in its state/config.env).
+          # This Service + the claw3d ingress below front it with the cluster's own
+          # nginx + cert-manager + external-dns stack, giving it a stable URL
+          # (3dclaw.dublinconsulting.com.br) in place of the installer's throwaway
+          # Cloudflare quick tunnel whose *.trycloudflare.com hostname changed on
+          # every restart. The openclaw container declares no port for 3001; the
+          # Service targets the pod's 3001 directly. NB: the Claw3D process is still
+          # unsupervised - a pod restart needs a manual `claw3dctl start` until it is
+          # moved to its own Deployment or a lifecycle.postStart hook.
+          service:
+            # bjw-s app-template appends "-<identifier>" to every Service/Ingress
+            # name as soon as more than one exists. forceRename pins the gateway
+            # Service and Ingress to their current name ("openclaw") so adding the
+            # claw3d pair below does not make ArgoCD prune+recreate the live
+            # openclaw.dublinconsulting.com.br ingress (and re-issue openclaw-tls).
+            main:
+              forceRename: openclaw
+            claw3d:
+              controller: main
+              ports:
+                http:
+                  port: 3001
           ingress:
             main:
               enabled: true
+              forceRename: openclaw
               className: nginx
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt"
@@ -282,6 +308,29 @@ spec:
                 - secretName: openclaw-tls
                   hosts:
                     - openclaw.dublinconsulting.com.br
+            claw3d:
+              enabled: true
+              className: nginx
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt"
+                external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
+                external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+                # Claw3D streams runtime events over a long-lived connection; match
+                # the generous proxy timeouts used for the gateway ingress above.
+                nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+                nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+              hosts:
+                - host: 3dclaw.dublinconsulting.com.br
+                  paths:
+                    - path: /
+                      pathType: Prefix
+                      service:
+                        identifier: claw3d
+                        port: http
+              tls:
+                - secretName: claw3d-tls
+                  hosts:
+                    - 3dclaw.dublinconsulting.com.br
           persistence:
             data:
               storageClass: oci-bv

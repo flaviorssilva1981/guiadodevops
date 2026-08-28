@@ -26,6 +26,35 @@ spec:
               reloader.stakater.com/auto: "true"
           controllers:
             main:
+              initContainers:
+                # The PVC mount root (/home/node/.openclaw) was left root-owned from
+                # before this chart's non-root securityContext was in place; k8s only
+                # chowns a volume root on fsGroup *mismatch* (OnRootMismatch), and the
+                # group here already matched, so the stale owning user was never fixed.
+                # OpenClaw's exec tool chmods this directory before running any shell
+                # command, so a stale root-owned root causes EPERM on every exec call
+                # even though file read/write inside it works fine. Fix once here with
+                # CAP_CHOWN only (no full root) rather than recursively chowning on
+                # every pod start.
+                fix-permissions:
+                  image:
+                    repository: ghcr.io/openclaw/openclaw
+                    tag: "{{ .Values.openclawVersion }}"
+                  command:
+                    - sh
+                    - -c
+                    - chown 1000:1000 /home/node/.openclaw
+                  securityContext:
+                    runAsUser: 1000
+                    runAsGroup: 1000
+                    runAsNonRoot: true
+                    readOnlyRootFilesystem: true
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - ALL
+                      add:
+                        - CHOWN
               containers:
                 main:
                   envFrom:
@@ -168,6 +197,10 @@ spec:
           persistence:
             data:
               storageClass: oci-bv
+              advancedMounts:
+                main:
+                  fix-permissions:
+                    - path: /home/node/.openclaw
   destination:
     server: https://kubernetes.default.svc
     namespace: ai-agents

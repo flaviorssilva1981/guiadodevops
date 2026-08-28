@@ -273,12 +273,16 @@ spec:
           # unsupervised - a pod restart needs a manual `claw3dctl start` until it is
           # moved to its own Deployment or a lifecycle.postStart hook.
           service:
-            # bjw-s app-template appends "-<identifier>" to every Service/Ingress
-            # name as soon as more than one exists. forceRename pins the gateway
-            # Service and Ingress to their current name ("openclaw") so adding the
-            # claw3d pair below does not make ArgoCD prune+recreate the live
-            # openclaw.dublinconsulting.com.br ingress (and re-issue openclaw-tls).
+            # primary: true keeps service.main the primary Service once a second
+            # one exists - without it bjw-s app-template (a) renames every
+            # Service/Ingress to "openclaw-<identifier>" and (b) repoints the main
+            # container's TCP probes from 18789 to the *other* service's port
+            # (3001), which nothing in the container listens on, so the pod never
+            # goes Ready. forceRename additionally pins the name to "openclaw" so
+            # this stays a purely additive change (no prune/recreate of the live
+            # gateway Service/Ingress, no openclaw-tls re-issue).
             main:
+              primary: true
               forceRename: openclaw
             claw3d:
               controller: main

@@ -83,6 +83,28 @@ spec:
                     limits:
                       cpu: "4"
                       memory: 4Gi
+                  # (Re)launch the Claw3D Studio process on every pod start. Claw3D
+                  # is installed on the PVC (/home/node/.openclaw/claw3d-openclaw-studio,
+                  # HOST=0.0.0.0 / TUNNEL_ENABLED=0 in its state/config.env) and
+                  # fronted by the openclaw-claw3d Service/Ingress, but it runs as a
+                  # plain setsid process, not a container - without this it stayed
+                  # dead after a restart until someone ran `claw3dctl start` by hand.
+                  # The hook backgrounds the launch and always exits 0: a non-zero
+                  # postStart would kill the gateway container. HOME must be an
+                  # explicit writable path (image $HOME=/home/node is read-only).
+                  lifecycle:
+                    postStart:
+                      exec:
+                        command:
+                          - sh
+                          - -c
+                          - |
+                            CTL=/home/node/.openclaw/claw3d-openclaw-studio/bin/claw3dctl
+                            [ -x "$CTL" ] || exit 0
+                            HOME=/home/node/.openclaw/claw3d-home \
+                            OPENCLAW_STATE_DIR=/home/node/.openclaw \
+                              setsid "$CTL" start >/tmp/claw3d-poststart.log 2>&1 &
+                            exit 0
                 chromium:
                   # Browser automation not needed for a Telegram chat agent; disabled to cut
                   # resource use and attack surface.

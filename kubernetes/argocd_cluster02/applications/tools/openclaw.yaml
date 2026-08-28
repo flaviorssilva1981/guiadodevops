@@ -33,9 +33,15 @@ spec:
                 # group here already matched, so the stale owning user was never fixed.
                 # OpenClaw's exec tool chmods this directory before running any shell
                 # command, so a stale root-owned root causes EPERM on every exec call
-                # even though file read/write inside it works fine. Fix once here with
-                # CAP_CHOWN only (no full root) rather than recursively chowning on
-                # every pod start.
+                # even though file read/write inside it works fine. Fix once here.
+                # NOTE: runAsUser 1000 + capabilities.add:[CHOWN] (drop:ALL) was tried
+                # first and failed with the same EPERM - the added capability did not
+                # take effect for this non-root process on this cluster's runtime
+                # (likely an ambient-capability propagation gap across the sh -c ->
+                # chown exec chain). Running this one short-lived step as literal root
+                # with the runtime's default capability set (no add/drop override) is
+                # the standard, proven pattern other charts use for this exact
+                # volume-ownership-fix case.
                 fix-permissions:
                   image:
                     repository: ghcr.io/openclaw/openclaw
@@ -45,16 +51,11 @@ spec:
                     - -c
                     - chown 1000:1000 /home/node/.openclaw
                   securityContext:
-                    runAsUser: 1000
-                    runAsGroup: 1000
-                    runAsNonRoot: true
+                    runAsUser: 0
+                    runAsGroup: 0
+                    runAsNonRoot: false
                     readOnlyRootFilesystem: true
                     allowPrivilegeEscalation: false
-                    capabilities:
-                      drop:
-                        - ALL
-                      add:
-                        - CHOWN
               containers:
                 main:
                   envFrom:

@@ -117,7 +117,15 @@ spec:
                         },
                         "userTimezone": "UTC",
                         "timeoutSeconds": 600,
-                        "maxConcurrent": 3
+                        "maxConcurrent": 3,
+                        "memorySearch": {
+                          "provider": "none",
+                          "store": {
+                            "vector": {
+                              "enabled": false
+                            }
+                          }
+                        }
                       },
                       "list": [
                         {

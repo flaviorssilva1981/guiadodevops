@@ -22,16 +22,14 @@ spec:
           # (see that release's "Memory Core startup repair" note) for a downstream
           # skill-pack installer that checks for it via `openclaw memory status --json`.
           openclawVersion: "2026.7.1-2"
-          # TEMPORARY: overwrite (not merge) for one deploy. The previous merge-mode
-          # runtime config on the PVC still carries the old `models.providers.requesty`
-          # block (apiKey: ${REQUESTY_API_KEY}); with that env var now gone the gateway
-          # hard-fails at startup on SecretRefResolutionError and merge cannot remove a
-          # stale key. `overwrite` replaces /home/node/.openclaw/openclaw.json from the
-          # mounted ConfigMap on next boot (sessions/workspace are untouched; only
-          # Control-UI device pairings are lost). Revert to `merge` in a follow-up PR
-          # once the pod is healthy on the anthropic-direct config.
-          # (chart values schema accepts only "merge" or "overwrite".)
-          configMode: overwrite
+          # merge (not overwrite): the init-config deep-merge preserves the runtime
+          # `meta` block that OpenClaw's Memory Core startup-repair validates. overwrite
+          # `cp`s a meta-less file, which Memory Core rejects on boot and "auto-restores
+          # from backup" (reverting to the old requesty config) - that fought every
+          # provider change. With merge, the chart's `agents.defaults.model.primary` and
+          # `models.providers.anthropic` are re-applied on every boot and stick; the
+          # ignoreDifferences block below keeps ArgoCD from fighting the merged state.
+          configMode: merge
           # No ClawHub skills auto-installed on startup (least-privilege default).
           skills: []
           defaultPodOptions:
@@ -139,6 +137,9 @@ spec:
                           "baseUrl": "https://api.anthropic.com",
                           "apiKey": "${ANTHROPIC_API_KEY}",
                           "api": "anthropic-messages",
+                          "headers": {
+                            "anthropic-workspace-id": "wrkspc_01GSzMHTV7Y7S6H2Uza33Vg7"
+                          },
                           "models": [
                             {
                               "id": "claude-sonnet-5",

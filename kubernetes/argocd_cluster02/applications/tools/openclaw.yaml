@@ -27,7 +27,7 @@ spec:
           # `cp`s a meta-less file, which Memory Core rejects on boot and "auto-restores
           # from backup" (reverting to the old requesty config) - that fought every
           # provider change. With merge, the chart's `agents.defaults.model.primary` and
-          # `models.providers.anthropic` are re-applied on every boot and stick; the
+          # `models.providers.openai` are re-applied on every boot and stick; the
           # ignoreDifferences block below keeps ArgoCD from fighting the merged state.
           configMode: merge
           # No ClawHub skills auto-installed on startup (least-privilege default).
@@ -135,7 +135,7 @@ spec:
                       "defaults": {
                         "workspace": "/home/node/.openclaw/workspace",
                         "model": {
-                          "primary": "anthropic/claude-sonnet-5"
+                          "primary": "openai/gpt-5.5"
                         },
                         "userTimezone": "UTC",
                         "timeoutSeconds": 600,
@@ -221,19 +221,16 @@ spec:
 
                     "models": {
                       "providers": {
-                        "anthropic": {
-                          "baseUrl": "https://api.anthropic.com",
-                          "apiKey": "${ANTHROPIC_API_KEY}",
-                          "api": "anthropic-messages",
-                          "headers": {
-                            "anthropic-workspace-id": "wrkspc_01GSzMHTV7Y7S6H2Uza33Vg7"
-                          },
+                        "openai": {
+                          "baseUrl": "https://api.openai.com/v1",
+                          "apiKey": "${OPENAI_API_KEY}",
+                          "api": "openai-responses",
                           "models": [
                             {
-                              "id": "claude-sonnet-5",
-                              "name": "Claude Sonnet 5",
-                              "contextWindow": 200000,
-                              "maxTokens": 64000
+                              "id": "gpt-5.5",
+                              "name": "GPT-5.5",
+                              "contextWindow": 272000,
+                              "maxTokens": 128000
                             }
                           ]
                         }

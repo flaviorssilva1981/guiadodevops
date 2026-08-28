@@ -22,9 +22,15 @@ spec:
           # (see that release's "Memory Core startup repair" note) for a downstream
           # skill-pack installer that checks for it via `openclaw memory status --json`.
           openclawVersion: "2026.7.1-2"
-          # merge preserves runtime state (paired devices, UI settings) across syncs;
-          # see the ignoreDifferences block below, which keeps ArgoCD from fighting that state.
-          configMode: merge
+          # TEMPORARY: replace (not merge) for one deploy. The previous merge-mode
+          # runtime config on the PVC still carries the old `models.providers.requesty`
+          # block (apiKey: ${REQUESTY_API_KEY}); with that env var now gone the gateway
+          # hard-fails at startup on SecretRefResolutionError and merge cannot remove a
+          # stale key. `replace` overwrites /home/node/.openclaw/openclaw.json from the
+          # mounted ConfigMap on next boot (sessions/workspace are untouched; only
+          # Control-UI device pairings are lost). Revert to `merge` in a follow-up PR
+          # once the pod is healthy on the anthropic-direct config.
+          configMode: replace
           # No ClawHub skills auto-installed on startup (least-privilege default).
           skills: []
           defaultPodOptions:

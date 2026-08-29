@@ -11,6 +11,17 @@ spec:
     helm:
       values: |-
         replicaCount: 1
+        # Pin admin creds to a Vault-backed secret (ExternalSecret grafana-admin
+        # in config/core-tools/grafana-config/, synced to grafana-admin-credentials).
+        # Without this the chart auto-generates its own `grafana` secret and
+        # regenerates admin-password on Helm/Argo syncs, while Grafana's DB on the
+        # PVC keeps whatever was seeded on first boot - so the stored secret drifts
+        # out of sync with the real login. existingSecret also stops the chart
+        # creating that throwaway secret at all.
+        admin:
+          existingSecret: grafana-admin-credentials
+          userKey: admin-user
+          passwordKey: admin-password
         # RWO PVC (oci-bv) cannot multi-attach across nodes during RollingUpdate
         deploymentStrategy:
           type: Recreate

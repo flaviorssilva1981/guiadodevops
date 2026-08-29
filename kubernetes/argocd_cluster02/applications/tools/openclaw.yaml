@@ -354,14 +354,10 @@ spec:
                 # the generous proxy timeouts used for the gateway ingress above.
                 nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
                 nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-                # Same Basic auth as the gateway ingress. Claw3D Studio was
-                # previously protected by a hand-applied annotation + secret that
-                # only existed on the live cluster - this app's selfHeal would
-                # strip it on the next sync. Declaring it here (pointing at the
-                # same Vault-backed `openclaw-basic-auth` secret) makes it durable.
-                nginx.ingress.kubernetes.io/auth-type: basic
-                nginx.ingress.kubernetes.io/auth-secret: openclaw-basic-auth
-                nginx.ingress.kubernetes.io/auth-realm: "Claw3D Studio - authentication required"
+                # No nginx Basic auth here: Claw3D Studio enforces its own access
+                # gate (studio_access cookie / device pairing, realm "Claw3D"), so
+                # an nginx layer only stacked a second browser prompt. Basic auth
+                # is kept on ingress.main (the OpenClaw gateway) only.
               hosts:
                 - host: 3dclaw.dublinconsulting.com.br
                   paths:

@@ -319,18 +319,14 @@ spec:
                 external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
                 nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
                 nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-                # HTTP Basic auth in front of the Control UI / Gateway Dashboard.
-                # The in-app "Gateway Token" is optional and the dashboard itself
-                # renders with no challenge, so this edge auth is the actual gate
-                # on a publicly-resolvable host. Secret `openclaw-basic-auth`
-                # (key `auth`, htpasswd format) is synced from Vault by the
-                # ExternalSecret in config/tools/openclaw-config/. The browser
-                # replays the Basic credentials on the wss:// upgrade too, so the
-                # Control UI WebSocket keeps working. Telegram (outbound long-poll)
-                # and Claw3D (talks to ws://localhost:18789 in-pod) are unaffected.
-                nginx.ingress.kubernetes.io/auth-type: basic
-                nginx.ingress.kubernetes.io/auth-secret: openclaw-basic-auth
-                nginx.ingress.kubernetes.io/auth-realm: "OpenClaw - authentication required"
+                # No nginx Basic auth: the Control UI is a WebSocket-backed SPA and
+                # browsers cannot attach an Authorization header to the wss://
+                # handshake, so an edge Basic gate 401s the socket and the UI loops
+                # on the sign-in prompt. Access is instead enforced by OpenClaw
+                # itself: OPENCLAW_GATEWAY_TOKEN (from Vault via openclaw-env-secret)
+                # plus per-browser device pairing (`openclaw devices approve`,
+                # operator scopes, revocable). The static UI bundle loads without a
+                # challenge but is inert until both of those pass.
               hosts:
                 - host: openclaw.dublinconsulting.com.br
                   paths:

@@ -158,6 +158,7 @@ spec:
                             "emoji": "👔"
                           },
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","team-bundle-installer","web-research-with-sources","market-research","business-health-diagnostic","scenario-planning","idea-scoring","executive-briefing","presentation-builder","professional-report-builder","document-builder"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -165,6 +166,7 @@ spec:
                           "name": "Chiquinha",
                           "workspace": "/home/node/.openclaw/workspaces/chiquinha",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","diagram-maker","architecture-review","api-testing","security-review","webapp-testing"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -172,6 +174,7 @@ spec:
                           "name": "Dona Florinda",
                           "workspace": "/home/node/.openclaw/workspaces/dona-florinda",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","creative-ideation","idea-scoring","concept-visualizer","premium-visual-experience","visual-design-system","scenario-planning","market-research"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -179,6 +182,7 @@ spec:
                           "name": "Kiko",
                           "workspace": "/home/node/.openclaw/workspaces/kiko",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","market-research","ad-creative","cro-seo-analytics","conversion-copywriting","product-marketing-context","social-intelligence","pricing-launch-strategy","idea-scoring"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -186,6 +190,7 @@ spec:
                           "name": "Senhor Barriga",
                           "workspace": "/home/node/.openclaw/workspaces/senhor-barriga",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","cashflow-dre","financial-modeling","unit-economics-budgeting","spreadsheet-analyst","professional-report-builder","business-health-diagnostic","scenario-planning"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -193,6 +198,7 @@ spec:
                           "name": "Professor Girafales",
                           "workspace": "/home/node/.openclaw/workspaces/professor-girafales",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","sales-discovery","sales-enablement","objection-pipeline-forecast","presentation-builder","pricing-launch-strategy","product-marketing-context"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -200,6 +206,7 @@ spec:
                           "name": "Seu Madruga",
                           "workspace": "/home/node/.openclaw/workspaces/seu-madruga",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","brazilian-legal-research","contract-lgpd-review","legal-risk-visual-law","professional-report-builder"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -207,6 +214,7 @@ spec:
                           "name": "Bruxa do 71",
                           "workspace": "/home/node/.openclaw/workspaces/bruxa-do-71",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","conversion-copywriting","copy-critic","ad-creative","vsl-video-script","product-marketing-context"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
                         {
@@ -214,6 +222,7 @@ spec:
                           "name": "Chapolin",
                           "workspace": "/home/node/.openclaw/workspaces/chapolin",
                           "tools": { "profile": "full" },
+                          "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","marketplace-research","margin-listing-optimizer","inventory-competitor-go-no-go","pricing-launch-strategy","unit-economics-budgeting","cro-seo-analytics"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         }
                       ]

@@ -109,6 +109,15 @@ spec:
                   # Browser automation not needed for a Telegram chat agent; disabled to cut
                   # resource use and attack surface.
                   enabled: false
+          # NOTE (agents.defaults.heartbeat.every: "0"): OpenClaw's heartbeat is ON by
+          # default for the default agent (chaves) at a 30-min interval even with no
+          # heartbeat block. Each poll submits a full model turn to openai/gpt-5.5
+          # (reads HEARTBEAT.md, calls heartbeat_respond), so it burned the OpenAI
+          # key ~48x/day with no user activity. HEARTBEAT.md is empty and there are
+          # no periodic tasks to run, so the heartbeat is disabled: every "0" makes
+          # resolveHeartbeatIntervalMs() return null and the heartbeat-runner skips
+          # scheduling. Re-enable by setting a duration (e.g. "30m") if periodic
+          # agent wake-ups are ever needed.
           configMaps:
             config:
               data:
@@ -135,11 +144,14 @@ spec:
                       "defaults": {
                         "workspace": "/home/node/.openclaw/workspace",
                         "model": {
-                          "primary": "openai/gpt-5.5"
+                          "primary": "requesty/openai/gpt-5.5"
                         },
                         "userTimezone": "UTC",
                         "timeoutSeconds": 600,
                         "maxConcurrent": 3,
+                        "heartbeat": {
+                          "every": "0"
+                        },
                         "memorySearch": {
                           "provider": "none",
                           "store": {
@@ -230,14 +242,14 @@ spec:
 
                     "models": {
                       "providers": {
-                        "openai": {
-                          "baseUrl": "https://api.openai.com/v1",
-                          "apiKey": "${OPENAI_API_KEY}",
+                        "requesty": {
+                          "baseUrl": "https://router.requesty.ai/v1",
+                          "apiKey": "${REQUESTY_API_KEY}",
                           "api": "openai-responses",
                           "models": [
                             {
-                              "id": "gpt-5.5",
-                              "name": "GPT-5.5",
+                              "id": "openai/gpt-5.5",
+                              "name": "GPT-5.5 (via Requesty)",
                               "contextWindow": 272000,
                               "maxTokens": 128000
                             }

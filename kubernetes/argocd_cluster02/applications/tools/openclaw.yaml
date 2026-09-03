@@ -133,13 +133,13 @@ spec:
           # Session transcripts were also reset once (sessions-backup-*.tar.gz on
           # the PVC) to drop the already-poisoned history.
           #
-          # NOTE (tools.media.audio.models): Telegram voice-note transcription has
-          # no built-in default for a custom provider - it worked under the native
-          # `openai` provider only because that one advertises audio.transcriptions.
-          # With the `requesty` provider it must be pointed at a transcription
-          # model explicitly. Both entries require the model to be approved for the
-          # Requesty API key (Model Library -> Transcriptions, or the key's access
-          # list) or the router returns 403 "not approved for this API key".
+          # NOTE (no tools.media.audio): Telegram voice-note transcription is
+          # disabled - it needs a transcription model, and the company's Requesty
+          # allowlist has none approved (chat models only, none accept audio in).
+          # A tools.media.audio.models -> requesty/openai/whisper-1 block was tried
+          # (#192) and reverted (#194) because the router returns 403 "not approved
+          # for this API key". Re-add it if a transcription model is ever approved,
+          # or point it at a non-Requesty STT provider.
           configMaps:
             config:
               data:
@@ -312,15 +312,6 @@ spec:
                         },
                         "fetch": {
                           "enabled": true
-                        }
-                      },
-                      "media": {
-                        "audio": {
-                          "enabled": true,
-                          "models": [
-                            { "provider": "requesty", "model": "openai/gpt-4o-mini-transcribe" },
-                            { "provider": "requesty", "model": "openai/whisper-1" }
-                          ]
                         }
                       }
                     },

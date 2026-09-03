@@ -119,17 +119,21 @@ spec:
           # scheduling. Re-enable by setting a duration (e.g. "30m") if periodic
           # agent wake-ups are ever needed.
           #
-          # NOTE ("reasoning": false on the requesty gpt-5.5 entry): the OpenAI
-          # Responses API returns an encrypted reasoning blob (reasoning.encrypted_content)
-          # that must be replayed on the next turn. Those blobs are bound to the
-          # OpenAI key/org context that minted them, so blobs minted pre-#191
-          # (native `openai` provider) fail verification when replayed through the
-          # Requesty router -> every agent turn 400s with "encrypted content ...
-          # could not be verified", and OpenClaw's auto-recovery regex does not
-          # match Requesty's error wording so it never self-heals. Marking the
-          # model non-reasoning gates off the whole `if (model.reasoning)` request
-          # path (no `include: reasoning.encrypted_content`, no replay). GPT-5.5
-          # still reasons server-side; the CoT blob is just not round-tripped.
+          # NOTE (api: openai-completions + "reasoning": false on requesty gpt-5.5):
+          # the OpenAI *Responses* API returns an encrypted reasoning blob
+          # (reasoning.encrypted_content) that must be replayed on the next turn.
+          # Those blobs are bound to the backend OpenAI key/context that minted
+          # them; Requesty load-balances across backend keys, so a multi-turn
+          # conversation whose turns land on different backends fails replay with
+          # 400 "encrypted content ... could not be verified" (OpenClaw's
+          # auto-recovery regex doesn't match Requesty's wording, so no self-heal).
+          # `reasoning: false` alone did NOT stop it (the responses transport still
+          # requested reasoning). Switching to the Chat Completions transport
+          # (api: openai-completions -> client.chat.completions, /v1/chat/completions)
+          # removes the encrypted-reasoning replay path entirely - the wrapper only
+          # applies to openai-responses / openai-chatgpt-responses. Tool calling
+          # verified working through Requesty on chat/completions. GPT-5.5 still
+          # reasons server-side; the CoT blob is simply not round-tripped.
           # Session transcripts were also reset once (sessions-backup-*.tar.gz on
           # the PVC) to drop the already-poisoned history.
           #
@@ -267,7 +271,7 @@ spec:
                         "requesty": {
                           "baseUrl": "https://router.requesty.ai/v1",
                           "apiKey": "${REQUESTY_API_KEY}",
-                          "api": "openai-responses",
+                          "api": "openai-completions",
                           "models": [
                             {
                               "id": "openai/gpt-5.5",

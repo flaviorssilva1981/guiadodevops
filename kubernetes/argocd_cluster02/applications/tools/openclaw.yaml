@@ -118,6 +118,14 @@ spec:
           # resolveHeartbeatIntervalMs() return null and the heartbeat-runner skips
           # scheduling. Re-enable by setting a duration (e.g. "30m") if periodic
           # agent wake-ups are ever needed.
+          #
+          # NOTE (tools.media.audio.models): Telegram voice-note transcription has
+          # no built-in default for a custom provider - it worked under the native
+          # `openai` provider only because that one advertises audio.transcriptions.
+          # With the `requesty` provider it must be pointed at a transcription
+          # model explicitly. Both entries require the model to be approved for the
+          # Requesty API key (Model Library -> Transcriptions, or the key's access
+          # list) or the router returns 403 "not approved for this API key".
           configMaps:
             config:
               data:
@@ -289,6 +297,15 @@ spec:
                         },
                         "fetch": {
                           "enabled": true
+                        }
+                      },
+                      "media": {
+                        "audio": {
+                          "enabled": true,
+                          "models": [
+                            { "provider": "requesty", "model": "openai/gpt-4o-mini-transcribe" },
+                            { "provider": "requesty", "model": "openai/whisper-1" }
+                          ]
                         }
                       }
                     },

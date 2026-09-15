@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eurotrip2026
+spec:
+  selector:
+    app: eurotrip2026
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP

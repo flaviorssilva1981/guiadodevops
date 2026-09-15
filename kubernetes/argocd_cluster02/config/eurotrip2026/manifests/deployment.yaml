@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: eurotrip2026
-          image: docker.io/flaviorssilva/eurotrip2026:latest
+          image: docker.io/flaviorssilva/eurotrip2026:5532e93
           ports:
             - containerPort: 8080
           resources:

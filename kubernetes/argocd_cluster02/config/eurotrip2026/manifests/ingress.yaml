@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eurotrip2026
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    external-dns.alpha.kubernetes.io/hostname: eurotrip2026.dublinconsulting.com.br
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+spec:
+  tls:
+    - hosts:
+        - eurotrip2026.dublinconsulting.com.br
+      secretName: eurotrip2026-tls
+  rules:
+    - host: eurotrip2026.dublinconsulting.com.br
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: eurotrip2026
+                port:
+                  number: 80

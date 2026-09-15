@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: eurotrip2026
+  namespace: argocd
+spec:
+  project: my-app
+  source:
+    repoURL: https://github.com/flaviorssilva1981/guiadodevops.git
+    targetRevision: main
+    path: kubernetes/argocd_cluster02/config/eurotrip2026/manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: eurotrip2026
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

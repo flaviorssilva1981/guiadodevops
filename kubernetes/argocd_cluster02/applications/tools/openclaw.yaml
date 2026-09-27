@@ -192,7 +192,7 @@ spec:
                           "id": "chaves",
                           "default": true,
                           "identity": {
-                            "name": "Chaves",
+                            "name": "Chief of Staff",
                             "emoji": "👔"
                           },
                           "tools": { "profile": "full" },
@@ -201,7 +201,7 @@ spec:
                         },
                         {
                           "id": "chiquinha",
-                          "name": "Chiquinha",
+                          "name": "Solutions Architect",
                           "workspace": "/home/node/.openclaw/workspaces/chiquinha",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","diagram-maker","architecture-review","api-testing","security-review","webapp-testing"],
@@ -209,7 +209,7 @@ spec:
                         },
                         {
                           "id": "dona-florinda",
-                          "name": "Dona Florinda",
+                          "name": "Creative Director",
                           "workspace": "/home/node/.openclaw/workspaces/dona-florinda",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","creative-ideation","idea-scoring","concept-visualizer","premium-visual-experience","visual-design-system","scenario-planning","market-research"],
@@ -217,7 +217,7 @@ spec:
                         },
                         {
                           "id": "kiko",
-                          "name": "Kiko",
+                          "name": "Growth Marketer",
                           "workspace": "/home/node/.openclaw/workspaces/kiko",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","market-research","ad-creative","cro-seo-analytics","conversion-copywriting","product-marketing-context","social-intelligence","pricing-launch-strategy","idea-scoring"],
@@ -225,7 +225,7 @@ spec:
                         },
                         {
                           "id": "senhor-barriga",
-                          "name": "Senhor Barriga",
+                          "name": "Finance Analyst",
                           "workspace": "/home/node/.openclaw/workspaces/senhor-barriga",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","cashflow-dre","financial-modeling","unit-economics-budgeting","spreadsheet-analyst","professional-report-builder","business-health-diagnostic","scenario-planning"],
@@ -233,7 +233,7 @@ spec:
                         },
                         {
                           "id": "professor-girafales",
-                          "name": "Professor Girafales",
+                          "name": "Sales Lead",
                           "workspace": "/home/node/.openclaw/workspaces/professor-girafales",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","sales-discovery","sales-enablement","objection-pipeline-forecast","presentation-builder","pricing-launch-strategy","product-marketing-context"],
@@ -241,7 +241,7 @@ spec:
                         },
                         {
                           "id": "seu-madruga",
-                          "name": "Seu Madruga",
+                          "name": "Legal Counsel",
                           "workspace": "/home/node/.openclaw/workspaces/seu-madruga",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","brazilian-legal-research","contract-lgpd-review","legal-risk-visual-law","professional-report-builder"],
@@ -249,7 +249,7 @@ spec:
                         },
                         {
                           "id": "bruxa-do-71",
-                          "name": "Bruxa do 71",
+                          "name": "Copywriter",
                           "workspace": "/home/node/.openclaw/workspaces/bruxa-do-71",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","conversion-copywriting","copy-critic","ad-creative","vsl-video-script","product-marketing-context"],
@@ -257,7 +257,7 @@ spec:
                         },
                         {
                           "id": "chapolin",
-                          "name": "Chapolin",
+                          "name": "Marketplace Ops",
                           "workspace": "/home/node/.openclaw/workspaces/chapolin",
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","marketplace-research","margin-listing-optimizer","inventory-competitor-go-no-go","pricing-launch-strategy","unit-economics-budgeting","cro-seo-analytics"],

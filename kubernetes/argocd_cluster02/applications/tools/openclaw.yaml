@@ -67,6 +67,43 @@ spec:
                     runAsNonRoot: false
                     readOnlyRootFilesystem: true
                     allowPrivilegeEscalation: false
+                # Installs the git-managed rule files (ConfigMap
+                # openclaw-atendimento-workspace, see config/tools/openclaw-config/)
+                # onto the PVC. OpenClaw reads agent rules from the PVC workspace, so
+                # the ConfigMap is only the source. (1) The atendimento agent's rule
+                # files are overwritten on every start (git wins) except MEMORY.md,
+                # which the agent curates. (2) The shared company CONTEXT.md/USER.md
+                # go only into team workspaces whose file is still the untouched
+                # "pendente de personalização" template, so hand edits survive.
+                # Never fails the pod: errors are ignored (exit 0).
+                seed-agent-files:
+                  image:
+                    repository: ghcr.io/openclaw/openclaw
+                    tag: "{{ .Values.openclawVersion }}"
+                  command:
+                    - sh
+                    - -c
+                    - |
+                      R=/home/node/.openclaw
+                      A=$R/workspaces/atendimento
+                      mkdir -p "$A"
+                      for f in IDENTITY SOUL AGENTS TOOLS HEARTBEAT README USER CONTEXT; do
+                        cp "/seed/$f.md" "$A/$f.md"
+                      done
+                      [ -f "$A/MEMORY.md" ] || cp /seed/MEMORY.md "$A/MEMORY.md"
+                      for w in "$R/workspace" "$R"/workspaces/*; do
+                        [ "$w" = "$A" ] && continue
+                        [ -d "$w" ] || continue
+                        for t in CONTEXT USER; do
+                          if [ ! -f "$w/$t.md" ] || grep -q "pendente de personaliza" "$w/$t.md"; then
+                            cp "/seed/team-$t.md" "$w/$t.md"
+                          fi
+                        done
+                      done
+                      exit 0
+                  securityContext:
+                    readOnlyRootFilesystem: true
+                    allowPrivilegeEscalation: false
               containers:
                 main:
                   envFrom:
@@ -197,7 +234,7 @@ spec:
                           },
                           "tools": { "profile": "full" },
                           "skills": ["time-chaves-operating-system","team-bundle-installer","web-research-with-sources","market-research","business-health-diagnostic","scenario-planning","idea-scoring","executive-briefing","presentation-builder","professional-report-builder","document-builder"],
-                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
+                          "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin","atendimento"] }
                         },
                         {
                           "id": "chiquinha",
@@ -263,6 +300,18 @@ spec:
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","marketplace-research","margin-listing-optimizer","inventory-competitor-go-no-go","pricing-launch-strategy","unit-economics-budgeting","cro-seo-analytics"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         }
+                        ,{
+                          "id": "atendimento",
+                          "name": "Alice - Atendimento",
+                          "workspace": "/home/node/.openclaw/workspaces/atendimento",
+                          "identity": { "name": "Alice - Atendimento", "emoji": "💬" },
+                          "tools": {
+                            "profile": "messaging",
+                            "deny": ["group:runtime","group:fs","group:web","group:media","group:plugins","browser","canvas","cron","gateway","nodes"]
+                          },
+                          "skills": [],
+                          "subagents": { "allowAgents": ["chaves"] }
+                        }
                       ]
                     },
 
@@ -305,7 +354,7 @@ spec:
                       "profile": "full",
                       "agentToAgent": {
                         "enabled": true,
-                        "allow": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"]
+                        "allow": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin","atendimento"]
                       },
                       "sessions": {
                         "visibility": "all"
@@ -421,6 +470,18 @@ spec:
                 main:
                   fix-permissions:
                     - path: /home/node/.openclaw
+                  seed-agent-files:
+                    - path: /home/node/.openclaw
+            # Rule files for the atendimento agent + shared company context, copied
+            # onto the PVC by the seed-agent-files initContainer.
+            atendimento-seed:
+              type: configMap
+              name: openclaw-atendimento-workspace
+              advancedMounts:
+                main:
+                  seed-agent-files:
+                    - path: /seed
+                      readOnly: true
   destination:
     server: https://kubernetes.default.svc
     namespace: ai-agents

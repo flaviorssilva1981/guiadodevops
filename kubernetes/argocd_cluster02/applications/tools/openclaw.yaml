@@ -373,8 +373,21 @@ spec:
                       "telegram": {
                         "botToken": "${TELEGRAM_BOT_TOKEN}",
                         "enabled": true
+                      },
+                      "whatsapp": {
+                        "dmPolicy": "open",
+                        "allowFrom": ["*"],
+                        "groupPolicy": "disabled",
+                        "selfChatMode": false
                       }
-                    }
+                    },
+
+                    "bindings": [
+                      {
+                        "agentId": "atendimento",
+                        "match": { "channel": "whatsapp", "accountId": "*" }
+                      }
+                    ]
                   }
           # Second Service for the Claw3D Studio (github.com/iamlukethedev/Claw3D).
           # Claw3D is not part of this chart - it is installed once onto the PVC and

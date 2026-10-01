@@ -285,31 +285,77 @@ data:
   # untouched "pendente de personalização" template, so manual edits survive.
   # ---------------------------------------------------------------------------
   team-CONTEXT.md: |
-    # CONTEXT.md
+    <!-- dublin-managed-context v2 (managed in git; remove this line to keep local edits) -->
+    # CONTEXT.md — Dublin Consulting
 
-    Empresa e oferta: Dublin Consulting — consultoria de Cloud, DevOps e
-    Kubernetes (site https://dublinconsulting.com.br). Sete frentes: Cloud &
-    Multi-cloud, Kubernetes & Containers, CI/CD & Automação, Infraestrutura como
-    Código, DevSecOps, Observabilidade e Soluções de IA. Oferta de entrada:
-    Diagnóstico de 5 dias úteis, acesso somente leitura, relatório de riscos
-    priorizados + roadmap de 90 dias, a partir de R$ 7.500 (um ambiente, uma
-    cloud; creditado se contratar a implementação); primeira conversa de 30 min
-    gratuita.
-    ICP e problema: empresas de médio porte no Brasil; CTO, gerente de engenharia
-    ou líder de TI com problema de infraestrutura, Kubernetes, custo de cloud ou
-    pipeline de entrega.
-    Posicionamento: especialista multi-cloud e DevSecOps (AWS, Azure, GCP, OCI),
-    segurança embutida na entrega, método "ler antes de escrever": diagnóstico,
-    mudanças reversíveis, plan antes de apply.
-    Fundador: Flavio Silva, Senior DevOps Engineer, 15 anos de experiência.
-    Casos confirmados (anonimizados): FinOps (~25% menos custo mensal de cloud),
-    VMs para AKS, on-premises para AWS, agente AIOps para Kubernetes. Não há
-    outros números, clientes nomeados ou depoimentos confirmados — nunca inventar.
-    Canais: WhatsApp +55 11 95078-3983 (principal), e-mail e LinkedIn. Atendimento
-    ao cliente é feito pela agente Alice (atendimento), que escala ao Chaves.
-    Estágio: operação
-    Metas 90 dias: pendente de definição pelo responsável (não inventar).
-    Meta 12 meses: pendente de definição pelo responsável (não inventar).
+    Fonte: https://dublinconsulting.com.br e PRODUCT.md do repositório
+    devops-portfolio, versão de 2026-10-01. Use como base factual; nunca invente
+    o que não está aqui (clientes, números, depoimentos, preços além dos listados).
+
+    ## Empresa e oferta
+    Dublin Consulting — consultoria de **Cloud, DevOps e Kubernetes**.
+    Slogan: "Cloud e DevOps inteligentes, operação segura." Lema: "Diagnosticamos
+    antes de mudar, automatizamos o que se repete e operamos com segurança."
+    Pilares: Transparência, Colaboração, Autonomia. Estágio: operação.
+    Fundador: **Flavio Silva**, Senior DevOps Engineer, 15 anos de experiência.
+    Certificações: AWS Solutions Architect Associate, Azure AZ-900, Google Cloud
+    Digital Leader, OCI Architect Associate.
+
+    ## ICP e problema
+    Empresas de médio porte no Brasil. CTO, gerente de engenharia ou líder de TI
+    com problema de infraestrutura, Kubernetes, custo de cloud ou pipeline de
+    entrega, que precisa avaliar credibilidade rápido e pedir um diagnóstico.
+
+    ## Posicionamento
+    Especialista multi-cloud e DevSecOps (AWS, Azure, GCP, OCI), segurança embutida
+    na entrega (segredos fora do git, RBAC/IAM com menor privilégio, verificações
+    automatizadas) e método "ler antes de escrever": diagnóstico primeiro, mudanças
+    reversíveis, plan antes de apply, documentação viva para a autonomia do cliente.
+
+    ## Serviços (7 frentes)
+    | Frente | O que cobre |
+    |--------|-------------|
+    | Cloud & Multi-cloud | Arquitetura, migração e governança em AWS, Azure, Google Cloud e OCI |
+    | Kubernetes & Containers | Clusters EKS, AKS, GKE e OKE; Docker, Helm, Argo CD |
+    | CI/CD & Automação | GitHub Actions, Jenkins, Azure DevOps, Bitbucket Pipelines |
+    | Infraestrutura como Código | Terraform e Ansible |
+    | DevSecOps | Trivy, SonarQube, HashiCorp Vault; segredos, RBAC/IAM |
+    | Observabilidade | Prometheus, Grafana, Zabbix |
+    | Soluções de IA | Agentes AIOps, assistentes de voz, LLMs (Claude, GPT, Gemini, Bedrock), MCP, RAG |
+
+    ## Método (6 etapas)
+    Diagnóstico, Arquitetura, Infraestrutura, Automação, Testes, Entrega.
+
+    ## Diagnóstico (oferta de entrada)
+    5 dias úteis, acesso somente leitura; relatório de riscos priorizados + roadmap
+    de 90 dias; cobre arquitetura, segurança, custos, CI/CD, Kubernetes e
+    observabilidade. A partir de **R$ 7.500** (um ambiente, uma cloud), creditado
+    se o cliente contratar a implementação. Primeira conversa de 30 minutos
+    gratuita. Outros escopos e valores: decisão do Flavio.
+
+    ## Casos confirmados (anonimizados; nunca nomear clientes)
+    FinOps com governança multi-cloud (~25% menos custo mensal de cloud);
+    refatoração de VMs para AKS com IaC; migração on-premises para AWS; agente
+    AIOps para Kubernetes (análise de causa raiz e remediação via MCP). Não há
+    outros números, setores, prazos ou depoimentos confirmados.
+
+    ## Canais
+    WhatsApp +55 11 95078-3983 (principal), e-mail e LinkedIn (Flavio Silva).
+    Horário de atendimento e SLAs não são divulgados: não prometer.
+
+    ## Como o time se relaciona
+    O atendimento ao cliente por WhatsApp é feito pela agente **Alice
+    (atendimento)**, restrita à mensageria e à base de conhecimento. Quando ela
+    avisa o Chaves de uma demanda complexa (orçamento, dúvida técnica, incidente,
+    jurídico/LGPD), o Chaves distribui ao especialista certo (por exemplo Carol
+    para arquitetura, Marcelo para finanças) e consolida uma resposta sugerida.
+    Nada é enviado a cliente sem a regra de aprovação do Flavio para ações
+    externas, financeiras e jurídicas.
+
+    ## Pendências do responsável (não inventar)
+    Metas de 90 dias e de 12 meses; modelos de contratação além do Diagnóstico;
+    dados societários (CNPJ); preços além do Diagnóstico.
+
     Prioridades e aprovações: ações externas, destrutivas, financeiras, jurídicas e de produção exigem aprovação
     Comunicação: direta, clara e com próximos passos
     Context version: 3.1.9

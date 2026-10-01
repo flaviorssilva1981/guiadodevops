@@ -74,7 +74,9 @@ spec:
                 # files are overwritten on every start (git wins) except MEMORY.md,
                 # which the agent curates. (2) The shared company CONTEXT.md/USER.md
                 # go only into team workspaces whose file is still the untouched
-                # "pendente de personalização" template, so hand edits survive.
+                # "pendente de personalização" template or still carry the
+                # dublin-managed-context marker (git-managed) or the first managed v1
+                # text ("que escala ao Chaves"), so hand edits that drop them survive.
                 # Never fails the pod: errors are ignored (exit 0).
                 seed-agent-files:
                   image:
@@ -95,7 +97,7 @@ spec:
                         [ "$w" = "$A" ] && continue
                         [ -d "$w" ] || continue
                         for t in CONTEXT USER; do
-                          if [ ! -f "$w/$t.md" ] || grep -q "pendente de personaliza" "$w/$t.md"; then
+                          if [ ! -f "$w/$t.md" ] || grep -q -e "pendente de personaliza" -e "dublin-managed-context" -e "que escala ao Chaves" "$w/$t.md"; then
                             cp "/seed/team-$t.md" "$w/$t.md"
                           fi
                         done

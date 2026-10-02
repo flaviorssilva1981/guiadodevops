@@ -194,6 +194,13 @@ spec:
           # (#192) and reverted (#194) because the router returns 403 "not approved
           # for this API key". Re-add it if a transcription model is ever approved,
           # or point it at a non-Requesty STT provider.
+          # NOTE (session.resetByChannel.whatsapp + session.maintenance): Alice's WhatsApp
+          # conversations are kept "forever" (10y idle window) so Chaves can consult any
+          # client's full history later (tools.sessions.visibility=all). Telegram keeps the
+          # 60-min idle reset. maintenance.pruneAfter/resetArchiveRetention are raised from
+          # their 30d default, which would otherwise delete stale sessions and reset
+          # archives. Long sessions are compacted by OpenClaw, so recall is summarized, not
+          # verbatim. Disk: watch the sessions dir (add maintenance.maxDiskBytes if needed).
           # NOTE (mcp.servers.hubspot): HubSpot CRM via the remote MCP server
           # (https://mcp.hubspot.com). OAuth only, and HubSpot has no dynamic client
           # registration (no registration_endpoint), so the pre-registered MCP
@@ -383,6 +390,13 @@ spec:
                       "reset": {
                         "mode": "idle",
                         "idleMinutes": 60
+                      },
+                      "resetByChannel": {
+                        "whatsapp": { "mode": "idle", "idleMinutes": 5256000 }
+                      },
+                      "maintenance": {
+                        "pruneAfter": "3650d",
+                        "resetArchiveRetention": "3650d"
                       }
                     },
 

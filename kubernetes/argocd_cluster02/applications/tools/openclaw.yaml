@@ -206,15 +206,17 @@ spec:
           # (#192) and reverted (#194) because the router returns 403 "not approved
           # for this API key". Re-add it if a transcription model is ever approved,
           # or point it at a non-Requesty STT provider.
-          # NOTE (session.resetByChannel.whatsapp + session.maintenance): Alice's WhatsApp
-          # conversations are kept "forever" (10y idle window) so Chaves can consult any
-          # client's full history later (tools.sessions.visibility=all). Telegram keeps the
-          # 60-min idle reset. maintenance.pruneAfter/resetArchiveRetention are raised from
-          # their 30d default, which would otherwise delete stale sessions and reset
-          # archives. Long sessions are compacted by OpenClaw, so recall is summarized, not
-          # verbatim. Disk: maintenance.maxDiskBytes=10gb is a safety valve (PVC is 50Gi,
-          # ~2.5G used, sessions ~0.5G on 2026-10-02); beyond it the OLDEST sessions/archives
-          # are removed first, so "forever" is bounded by this budget.
+          # NOTE (session.resetByChannel.whatsapp + session.maintenance): retention follows the
+          # PUBLISHED privacy policy (dublinconsulting.com.br/privacidade: WhatsApp assistant
+          # conversations kept up to 90 days, then deleted). WhatsApp sessions reset after 90
+          # days idle (129600 min), so Alice remembers a client for up to 90 days of silence and
+          # Chaves can consult that history (tools.sessions.visibility=all); maintenance.pruneAfter
+          # and resetArchiveRetention delete stale sessions/archives after 90d (the default was
+          # 30d). Telegram keeps the 60-min reset. Limits: the 90 days run from the LAST message,
+          # so a conversation that stays active keeps its older turns until compaction; copies of
+          # client messages also exist in Chaves' relayed sessions and in HubSpot notes, which
+          # this setting does not cover. maxDiskBytes=10gb is a safety valve (PVC 50Gi): beyond it
+          # the OLDEST sessions go first. Long sessions are compacted, so recall is summarized.
           # NOTE (mcp.servers.hubspot): HubSpot CRM via the remote MCP server
           # (https://mcp.hubspot.com). OAuth only, and HubSpot has no dynamic client
           # registration (no registration_endpoint), so the pre-registered MCP
@@ -406,11 +408,11 @@ spec:
                         "idleMinutes": 60
                       },
                       "resetByChannel": {
-                        "whatsapp": { "mode": "idle", "idleMinutes": 5256000 }
+                        "whatsapp": { "mode": "idle", "idleMinutes": 129600 }
                       },
                       "maintenance": {
-                        "pruneAfter": "3650d",
-                        "resetArchiveRetention": "3650d",
+                        "pruneAfter": "90d",
+                        "resetArchiveRetention": "90d",
                         "maxDiskBytes": "10gb"
                       }
                     },

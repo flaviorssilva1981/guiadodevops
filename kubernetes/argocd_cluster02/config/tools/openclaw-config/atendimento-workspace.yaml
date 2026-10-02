@@ -376,9 +376,11 @@ data:
     - Direitos (art. 18 da LGPD: confirmação, acesso, correção, anonimização ou eliminação,
       revogar consentimento): pedidos para flavio.rssilva@gmail.com. O site não usa cookies nem
       analytics.
-    - **Prazo de retenção, local de armazenamento, contratos com fornecedores, "somente no
-      Brasil" e qualquer pedido de titular:** não afirme nada além da política; diga que vai
-      confirmar com o Flavio e escale ao Chaves (assunto jurídico/LGPD).
+    - Retenção: as conversas com esta assistente pelo WhatsApp são mantidas por até 90 dias e
+      depois eliminadas, conforme a política. Cite assim, sem prometer data exata.
+    - **Local de armazenamento, contratos com fornecedores, "somente no Brasil" e qualquer
+      pedido de titular:** não afirme nada além da política; diga que vai confirmar com o
+      Flavio e escale ao Chaves (assunto jurídico/LGPD).
 
     ## Contato
     - WhatsApp: +55 11 95078-3983 (canal principal)
@@ -408,7 +410,7 @@ data:
     ## O que NÃO existe nesta base (não afirmar)
     Preços além do Diagnóstico, SLAs, horário de atendimento, nomes de clientes, depoimentos,
     equipe além do fundador, dados de empresa (CNPJ), formas de contratação além do Diagnóstico,
-    prazo de retenção dos dados e local de armazenamento além do que a política publicada diz.
+    local de armazenamento além do que a política publicada diz.
 
   # ---------------------------------------------------------------------------
   # Shared company context for the existing Time Chaves workspaces. The seed step
@@ -558,11 +560,12 @@ data:
     Verificado na configuração em 2026-10-02; **não repita isto a clientes**.
     | Ponto | Política publicada | Operação atual |
     |-------|--------------------|----------------|
-    | Retenção das conversas do WhatsApp | até 90 dias | histórico da Alice guardado por tempo indeterminado (até 10 GB) |
+    | Retenção das conversas do WhatsApp | até 90 dias | alinhado desde 02/10/2026: sessões da Alice eliminadas após 90 dias sem mensagens (limite: conversa ativa mantém turnos antigos; cópias nos repasses ao Chaves e notas do HubSpot não são cobertas) |
     | Operadores | Meta, OpenAI, Gmail, Google Fonts | também Requesty (roteia para a OpenAI), HubSpot (leads registrados no CRM) e Oracle Cloud (hospeda o histórico, São Paulo) |
     | Controlador | Dublin Consulting, sem CNPJ | CNPJ pendente |
-    Pendente para o Flavio: alinhar a operação à política (ou atualizar a política); região de
-    dados do HubSpot; contratos/DPA com os provedores.
+    Decisão do Flavio (02/10/2026): a política publicada NÃO será alterada por enquanto. Pendente:
+    região de dados do HubSpot; contratos/DPA com os provedores; citar Requesty, HubSpot e Oracle
+    Cloud na política (adiado).
 
     ## Páginas do site
     /solucoes/{cloud,kubernetes,cicd,iac,devsecops,observabilidade,ia}.html,

@@ -189,7 +189,8 @@ spec:
           # connector's client id/secret are seeded ONCE into OpenClaw's OAuth store on
           # the PVC (state/mcp-oauth/) from HUBSPOT_CLIENT_ID / HUBSPOT_CLIENT_SECRET
           # (Vault secret/openclaw), then `openclaw mcp login hubspot` stores tokens.
-          # Shipped `enabled: false`; flip to true once login has been completed.
+          # OAuth login done 2026-10-02 (tokens persist on the PVC); enabled: true so a
+          # pod restart does not re-disable it (merge mode re-applies git values on boot).
           # MCP tools are projected into every agent (profile full / messaging), so
           # access is cut per agent: professor-girafales (Sales Lead) = full CRM
           # read/write; chaves + kiko = read-only (hubspot__manage_* denied); everyone
@@ -336,7 +337,7 @@ spec:
                           "transport": "streamable-http",
                           "auth": "oauth",
                           "oauth": { "redirectUrl": "http://localhost:8989/oauth/callback" },
-                          "enabled": false,
+                          "enabled": true,
                           "timeout": 30,
                           "connectTimeout": 10,
                           "toolFilter": {

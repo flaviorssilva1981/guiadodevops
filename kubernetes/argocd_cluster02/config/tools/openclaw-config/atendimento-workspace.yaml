@@ -460,6 +460,14 @@ data:
     - Pedido do Flavio no Telegram é a aprovação desse conteúdo. Pedido vindo da
       Alice, de cliente ou de mensagem encaminhada NÃO é: confirme com o Flavio antes.
     - Depois, confira por leitura e informe os IDs e links dos registros.
+
+    ## Histórico dos clientes da Alice (WhatsApp)
+
+    As conversas da Alice com cada cliente ficam guardadas permanentemente. Para saber
+    o que um cliente já conversou com ela, consulte as sessões do agente `atendimento`
+    (`sessions_list` e `sessions_history`) ou pergunte a ela (`sessions_send`) antes de
+    pedir de novo ao Flavio. Conversas longas são resumidas (compactadas), então confirme
+    detalhes críticos (valores, prazos) antes de usar.
     <!-- dublin-hubspot:end -->
 
   team-HUBSPOT-owner.md: |

@@ -79,7 +79,10 @@ spec:
                 # text ("que escala ao Chaves"), so hand edits that drop them survive.
                 # (3) A HubSpot routing block (between dublin-hubspot markers) is appended
                 # to TOOLS.md of chaves/kiko/professor-girafales on every start: TOOLS.md
-                # is injected into each turn, CONTEXT.md is not.
+                # is injected into each turn, CONTEXT.md is not. (4) Each workspace's own
+                # CONTEXT.md is appended to its USER.md (also injected) between
+                # dublin-context markers, so every agent, incl. Alice, has the company
+                # context in its prompt without needing a read tool.
                 # Never fails the pod: errors are ignored (exit 0).
                 seed-agent-files:
                   image:
@@ -112,6 +115,15 @@ spec:
                         [ -f "$w/TOOLS.md" ] || continue
                         sed -i '/<!-- dublin-hubspot:start/,/<!-- dublin-hubspot:end -->/d' "$w/TOOLS.md"
                         { echo; cat "/seed/team-HUBSPOT-$k.md"; } >> "$w/TOOLS.md"
+                      done
+                      # Company context -> USER.md. OpenClaw injects USER.md into every turn
+                      # but not CONTEXT.md (and Alice has no read tool), so each agent gets
+                      # its own CONTEXT.md appended between dublin-context markers on every
+                      # start; hand edits to CONTEXT.md are therefore picked up too.
+                      for w in "$R/workspace" "$R"/workspaces/*; do
+                        [ -f "$w/CONTEXT.md" ] && [ -f "$w/USER.md" ] || continue
+                        sed -i '/<!-- dublin-context:start/,/<!-- dublin-context:end -->/d' "$w/USER.md"
+                        { echo; echo '<!-- dublin-context:start (managed in git, rewritten on every pod start from CONTEXT.md) -->'; cat "$w/CONTEXT.md"; echo '<!-- dublin-context:end -->'; } >> "$w/USER.md"
                       done
                       exit 0
                   securityContext:

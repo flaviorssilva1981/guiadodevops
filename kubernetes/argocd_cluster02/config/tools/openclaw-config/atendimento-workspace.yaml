@@ -247,91 +247,168 @@ data:
   CONTEXT.md: |
     # CONTEXT.md — Base de conhecimento (Dublin Consulting)
 
-    Fonte: https://dublinconsulting.com.br e PRODUCT.md do repositório
-    devops-portfolio. Versão de 2026-10-01. Use somente o que está aqui.
+    Fonte: https://dublinconsulting.com.br (home, páginas de solução, diagnóstico de exemplo e
+    política de privacidade), lido em 2026-10-02. Use somente o que está aqui.
 
     ## Quem somos
-    Dublin Consulting — consultoria de **Cloud, DevOps e Kubernetes**.
+    Dublin Consulting: consultoria de **Cloud, DevOps e Kubernetes**.
     Slogan: "Cloud e DevOps inteligentes, operação segura."
-    Lema do método: "Diagnosticamos antes de mudar, automatizamos o que se repete
-    e operamos com segurança."
-    Pilares: Transparência, Colaboração, Autonomia.
-    Público: empresas de médio porte no Brasil (CTO, gerente de engenharia, líder
-    de TI) com problema de infraestrutura, Kubernetes ou entrega (pipelines).
+    Proposta: arquitetura, automação DevOps e soluções de IA em AWS, Azure, GCP e OCI, com
+    segurança por padrão e mudanças reversíveis. Lema: "Diagnosticamos antes de mudar,
+    automatizamos o que se repete e operamos com segurança."
+    Valores: Transparência (mostrar o plano antes de mudar), Colaboração (trabalhar junto ao
+    time do cliente), Autonomia (entregar documentação e runbooks); diagnóstico antes de
+    mudança, mudanças reversíveis, segurança por padrão, documentação viva.
+    Público: empresas de médio porte no Brasil (CTO, gerente de engenharia, líder de TI) com
+    problema de infraestrutura, Kubernetes, custo de cloud ou pipeline de entrega.
 
     ## Fundador
-    **Flavio Silva** — Senior DevOps Engineer, 15 anos de experiência, de
-    infraestrutura on-premises a modernização cloud/DevOps. Certificações: AWS
-    Solutions Architect Associate, Microsoft Azure Fundamentals (AZ-900), Google
-    Cloud Digital Leader, Oracle Cloud Infrastructure Architect Associate.
-    GitHub: github.com/flaviorssilva1981.
+    **Flavio Silva**, engenheiro DevOps sênior, 15 anos de experiência (infraestrutura
+    on-premises, cloud, DevOps, FinOps e IA). Certificações: AWS Solutions Architect Associate,
+    Microsoft Azure Fundamentals (AZ-900), Google Cloud Digital Leader, Oracle Cloud
+    Infrastructure Architect Associate. Não há equipe divulgada além do fundador (não cite outras pessoas).
 
-    ## Serviços (7 frentes)
-    | Frente | O que cobre |
-    |--------|-------------|
-    | Cloud & Multi-cloud | Arquitetura, migração e governança em AWS, Azure, Google Cloud e OCI |
-    | Kubernetes & Containers | Desenho e operação de clusters EKS, AKS, GKE e OKE; Docker, Helm, Argo CD |
-    | CI/CD & Automação | Pipelines em GitHub Actions, Jenkins, Azure DevOps, Bitbucket Pipelines etc. |
-    | Infraestrutura como Código | Terraform e Ansible |
-    | DevSecOps | Segredos fora do git, RBAC/IAM com menor privilégio, verificações automatizadas (Trivy, SonarQube, HashiCorp Vault) |
-    | Observabilidade | Prometheus, Grafana, Zabbix |
-    | Soluções de IA | Agentes AIOps, assistentes de voz em tempo real, integração de LLMs (Claude, GPT, Gemini, AWS Bedrock), MCP e RAG |
+    ## Serviços (7 frentes; página de cada uma em /solucoes/<nome>.html)
+    **1. Cloud & Multi-cloud** (cloud.html): arquitetura, migração e governança em AWS, Azure,
+    Google Cloud e OCI. Entregas: arquitetura multi-cloud sem lock-in desnecessário; migração
+    (avaliação, plano reversível, cutover com mínimo de indisponibilidade); governança e
+    tagging; FinOps (custos, rightsizing, controles); redes e acessos (VPC/VNet, firewall,
+    allowlists documentadas); documentação do ambiente. Processo: avaliação, arquitetura e
+    riscos, infraestrutura como código, validação e handover documentado.
+
+    **2. Kubernetes & Containers** (kubernetes.html): desenho e operação de clusters EKS, AKS,
+    GKE e OKE. Entregas: clusters gerenciados; Helm e Kustomize; rollouts seguros
+    (maxUnavailable 0, probes, rollback previsível); autoscaling (HPA); RBAC por namespace sem
+    cluster-admin; imagens sem root e com filesystem somente leitura. Processo: leitura do
+    cluster, padrão de manifests/charts, pipeline de deploy com rollout controlado,
+    observabilidade e runbooks. Migração de VMs para containers é incremental. O próprio site
+    da Dublin roda em OKE, com HPA e deploy por pipeline.
+
+    **3. CI/CD & Automação** (cicd.html): pipelines rápidos, auditáveis e com rollback
+    previsível. Entregas: GitHub Actions (permissões mínimas, deploy por ambiente); migração de
+    jobs Jenkins para Bitbucket/GitHub com validação paralela; Bitbucket Pipelines (deploy por
+    SSH com allowlists); Azure DevOps e CodePipeline; GitOps com Argo CD; deploy de CMS (Drupal,
+    WordPress, Pantheon, Acquia via Composer e Drush). Processo: mapa de jobs, branches e
+    segredos; pipeline como está, sem mudar comportamento; variáveis e permissões mínimas; PRs
+    somente de pipeline, com validação. Segredos ficam nos secrets do provedor, nunca no
+    repositório; pipeline e código da aplicação ficam separados.
+
+    **4. Infraestrutura como Código** (iac.html): Terraform e Ansible com plan antes de apply,
+    módulos versionados e ambientes reproduzíveis de dev a produção. Entregas: Terraform modular
+    com estado remoto protegido; plan revisado antes de todo apply; Ansible idempotente;
+    paridade dev/uat/prod; detecção de drift; inventário e documentação. Processo: levantamento,
+    importação e modelagem em módulos, plan revisado em PR, apply aprovado e documentado. Não
+    há apply automático: só após aprovação explícita. Importa infraestrutura existente de forma
+    gradual.
+
+    **5. DevSecOps** (devsecops.html): segredos fora do git, RBAC/IAM com menor privilégio e
+    verificações automatizadas. Entregas: gestão de segredos (cofres); IAM e RBAC; scans no
+    pipeline (imagens e dependências); hardening de containers (não-root, capabilities
+    removidas, seccomp, rootfs somente leitura); rotação e revogação; revisão de riscos com plano
+    priorizado. Ferramentas: SonarQube, Trivy, Vault, Wazuh, Loki, WAF. Não faz pentest: o foco
+    é hardening e automação.
+
+    **6. Observabilidade** (observabilidade.html): visibilidade de saúde, performance e custo,
+    com alertas que importam. Entregas: métricas (Prometheus); dashboards (Grafana); Zabbix para
+    legado; alertas acionáveis baseados em SLO; análise de eventos de Kubernetes e causa raiz;
+    visão de custo. Ferramentas também: Sentry e New Relic. Processo: levantar o existente,
+    definir SLIs/SLOs, dashboards e alertas, runbooks e revisão. Integra ferramentas existentes;
+    modelo de plantão (on-call) é negociado caso a caso.
+
+    **7. Soluções de IA** (ia.html): agentes e automações com IA aplicados à operação, com MCP,
+    RAG sobre a documentação do cliente e guardrails de acesso. Entregas: agentes de AIOps;
+    integração via MCP (Kubernetes, nuvem, pipelines, observabilidade); RAG com fontes citadas;
+    assistentes conversacionais (incluindo voz com Gemini Live); guardrails (leitura primeiro,
+    escrita só com aprovação, credenciais fora dos prompts); multi-modelo (Claude, GPT, Gemini).
+    Não há execução autônoma em produção por padrão: começa em leitura e ações exigem aprovação.
+    Local, provedores e proteção de dados são decididos junto com o cliente.
 
     ## Método (6 etapas)
-    1. Diagnóstico 2. Arquitetura 3. Infraestrutura 4. Automação 5. Testes 6. Entrega.
-    Princípios: mudanças reversíveis, plano antes de aplicar (plan antes de
-    apply), leitura antes de escrita, segurança por padrão, documentação viva
-    para a autonomia do cliente.
+    Diagnóstico, Arquitetura, Infraestrutura, Automação, Testes, Entrega.
 
     ## Diagnóstico (oferta de entrada)
-    - Duração: **5 dias úteis**, com acesso **somente leitura**.
-    - Entrega: relatório com riscos priorizados + roadmap de 90 dias.
-    - Cobre: arquitetura, segurança, custos, pipelines CI/CD, Kubernetes e
-      observabilidade.
-    - Investimento: **a partir de R$ 7.500**, para um ambiente em uma cloud; o
-      valor é **creditado** se o cliente contratar a implementação.
-    - A **primeira conversa de 30 minutos é gratuita**.
-    - Existe um relatório de exemplo, com dados fictícios, em
-      https://dublinconsulting.com.br/diagnostico-exemplo
-    - Qualquer valor diferente disso (outro escopo, mais ambientes, projeto de
-      implementação) é com o Flavio — não estime.
+    5 dias úteis, acesso somente leitura; relatório de riscos priorizados + roadmap de 90 dias;
+    cobre arquitetura e resiliência, segurança (IAM, RBAC, segredos), custos e desperdícios
+    (FinOps), pipelines de CI/CD, Kubernetes e observabilidade. A partir de **R$ 7.500** (um
+    ambiente, uma cloud); o valor é **abatido** se o cliente contratar a implementação. Primeira
+    conversa de 30 minutos gratuita. Outros escopos e valores: decisão do Flavio, não estime.
+    Exemplo **fictício** em /diagnostico-exemplo: avaliação de 5 dias úteis de 2 contas AWS
+    (produção e homologação), cluster EKS com 14 serviços, PostgreSQL gerenciado e GitHub
+    Actions; 6 riscos priorizados (R1 a R6; 3 altos: gestão de chaves AWS, testes de backup,
+    alertas de incidentes; 3 médios); 15% a 20% do gasto mensal em recursos ociosos; 12 dos 14
+    serviços com deploy automatizado; ganhos rápidos em 2 semanas (federação OIDC, testes de
+    restore, rightsizing); roadmap de 90 dias em 3 fases de 30. Não são dados de cliente.
 
-    ## Casos entregues (anonimizados — nunca cite clientes)
-    - FinOps com governança multi-cloud, tags e controles de custo: cerca de
-      **25% de redução** no custo mensal de cloud.
-    - Refatoração de VMs para AKS, com infraestrutura como código.
-    - Migração de cargas on-premises para a AWS.
-    - Agente AIOps para Kubernetes: observa eventos de aviso, faz análise de causa
-      raiz com IA e propõe/executa remediação via MCP.
+    ## Casos (anonimizados; nunca nomear clientes)
+    - FinOps: multi-cloud com custos difíceis de atribuir; cerca de 25% a menos no custo mensal
+      de cloud, via governança, tagging e controles.
+    - Kubernetes: aplicações em VMs; deploy automatizado e infraestrutura reproduzível via código.
+    - Cloud: migração de on-premises para a AWS; cargas em produção na AWS.
+    - AIOps: eventos de Kubernetes exigiam investigação manual; relatório de causa raiz e
+      correção só com aprovação do operador.
+    - OpenClaw: agente de IA auto-hospedado em Kubernetes; todas as mudanças via pull request e
+      Argo CD mantém o cluster igual ao Git.
     Não há outros números, setores, prazos ou depoimentos confirmados.
+
+    ## Stack
+    Clouds: AWS, Azure, Google Cloud, Oracle Cloud. Plataforma: Kubernetes, Docker, Helm, Argo
+    CD. IaC/automação: Terraform, CloudFormation, Ansible, Jenkins, GitHub Actions, GitLab CI,
+    Bitbucket Pipelines, Azure DevOps, CodePipeline. Segurança: Trivy, SonarQube, Vault, Wazuh,
+    WAF. Observabilidade: Prometheus, Grafana, Loki, Zabbix, Sentry, New Relic. IA: Claude,
+    OpenAI GPT, Gemini, Grok, AWS Bedrock, OpenClaw, Agent Skills, MCP, RAG. Outros: Python,
+    Bash, PowerShell, CMS (Drupal, WordPress, Pantheon, Acquia).
+
+    ## Canais
+    WhatsApp +55 11 95078-3983 (principal), e-mail flavio.rssilva@gmail.com e LinkedIn (Flavio
+    Silva). O formulário do site abre conversa pré-preenchida. Horário de atendimento e SLAs não
+    são divulgados: não prometer.
+
+    ## Privacidade (política publicada em https://dublinconsulting.com.br/privacidade)
+    Se o cliente perguntar sobre dados, responda **só com o que a política diz** e indique a página:
+    - Responsável: a Dublin Consulting, representada por Flavio Silva.
+    - Coletamos: no formulário, nome, e-mail, empresa, cloud utilizada, tipo e descrição do
+      projeto; no WhatsApp, telefone, nome de perfil e conteúdo das mensagens.
+    - Para quê: responder à solicitação de diagnóstico e conversar sobre o projeto; esta
+      assistente virtual responde dúvidas iniciais. Não vendemos nem compartilhamos dados para
+      marketing. Base legal: consentimento (art. 7º, I, LGPD).
+    - Terceiros citados: WhatsApp (Meta); OpenAI, que processa as mensagens do WhatsApp e cujo
+      processamento "pode ocorrer fora do Brasil"; Gmail (Google); Google Fonts.
+    - Direitos (art. 18 da LGPD: confirmação, acesso, correção, anonimização ou eliminação,
+      revogar consentimento): pedidos para flavio.rssilva@gmail.com. O site não usa cookies nem
+      analytics.
+    - **Prazo de retenção, local de armazenamento, contratos com fornecedores, "somente no
+      Brasil" e qualquer pedido de titular:** não afirme nada além da política; diga que vai
+      confirmar com o Flavio e escale ao Chaves (assunto jurídico/LGPD).
 
     ## Contato
     - WhatsApp: +55 11 95078-3983 (canal principal)
     - E-mail: flavio.rssilva@gmail.com
     - LinkedIn: Flavio Silva
     - Formulário do site: abre uma conversa pré-preenchida no WhatsApp ou e-mail.
-    - Horário de atendimento: não divulgado — não prometa horário de resposta.
+    - Horário de atendimento: não divulgado, não prometa horário de resposta.
     - Privacidade/LGPD: https://dublinconsulting.com.br/privacidade
 
     ## Perguntas frequentes (respostas aprovadas)
     - **Vocês trabalham com qual cloud?** AWS, Azure, Google Cloud e OCI.
-    - **Precisam de acesso ao nosso ambiente?** No Diagnóstico, apenas acesso
-      somente leitura; nada é alterado.
-    - **Quanto custa?** O Diagnóstico parte de R$ 7.500 (um ambiente, uma cloud),
-      creditado se contratar a implementação. Outros escopos: sob análise do Flavio.
-    - **Quanto tempo leva?** O Diagnóstico leva 5 dias úteis. Prazos de projetos
-      dependem do escopo — o Flavio avalia.
-    - **Têm clientes de referência?** Há casos anonimizados (acima); nomes de
-      clientes não são divulgados.
-    - **Atendem fora de São Paulo?** O WhatsApp é de São Paulo; não há informação
-      sobre restrição de região — confirme com o Flavio.
-    - **Dão suporte 24x7?** Não há oferta de suporte contínuo/SLA divulgada —
-      escalar.
+    - **Precisam de acesso ao nosso ambiente?** No Diagnóstico, apenas acesso somente leitura;
+      nada é alterado.
+    - **Quanto custa?** O Diagnóstico parte de R$ 7.500 (um ambiente, uma cloud), abatido se
+      contratar a implementação. Outros escopos: sob análise do Flavio.
+    - **Quanto tempo leva?** O Diagnóstico leva 5 dias úteis. Prazos de projetos dependem do
+      escopo: o Flavio avalia.
+    - **Têm clientes de referência?** Há casos anonimizados; nomes de clientes não são divulgados.
+    - **Atendem fora de São Paulo?** Não há informação sobre restrição de região: confirme com o
+      Flavio.
+    - **Dão suporte 24x7?** Não há oferta de suporte contínuo/SLA divulgada: escalar. Plantão
+      (on-call) de observabilidade é negociado caso a caso.
+    - **Fazem pentest?** Não: o foco é hardening e automação.
+    - **Fazem migração de Jenkins para GitHub Actions? E Terraform?** Sim, são frentes de
+      CI/CD e IaC; o escopo exato é avaliado pelo Flavio.
 
     ## O que NÃO existe nesta base (não afirmar)
-    Preços além do Diagnóstico, SLAs, horário de atendimento, nomes de clientes,
-    depoimentos, equipe além do fundador, dados de empresa (CNPJ), formas de
-    contratação além do Diagnóstico.
+    Preços além do Diagnóstico, SLAs, horário de atendimento, nomes de clientes, depoimentos,
+    equipe além do fundador, dados de empresa (CNPJ), formas de contratação além do Diagnóstico,
+    prazo de retenção dos dados e local de armazenamento além do que a política publicada diz.
 
   # ---------------------------------------------------------------------------
   # Shared company context for the existing Time Chaves workspaces. The seed step
@@ -342,108 +419,170 @@ data:
     <!-- dublin-managed-context v2 (managed in git; remove this line to keep local edits) -->
     # CONTEXT.md — Dublin Consulting
 
-    Fonte: https://dublinconsulting.com.br e PRODUCT.md do repositório
-    devops-portfolio, versão de 2026-10-01. Use como base factual; nunca invente
-    o que não está aqui (clientes, números, depoimentos, preços além dos listados).
+    Fonte: https://dublinconsulting.com.br (home, 7 páginas de solução, /diagnostico-exemplo e
+    /privacidade, lidos em 2026-10-02) e PRODUCT.md do repositório devops-portfolio. Use como
+    base factual; nunca invente o que não está aqui (clientes, números, depoimentos, preços além
+    dos listados). O site muda: em dúvida sobre o conteúdo atual, busque a página (web fetch) e
+    avise o Chaves se divergir deste texto.
 
-    ## Empresa e oferta
-    Dublin Consulting — consultoria de **Cloud, DevOps e Kubernetes**.
-    Slogan: "Cloud e DevOps inteligentes, operação segura." Lema: "Diagnosticamos
-    antes de mudar, automatizamos o que se repete e operamos com segurança."
-    Pilares: Transparência, Colaboração, Autonomia. Estágio: operação.
-    Fundador: **Flavio Silva**, Senior DevOps Engineer, 15 anos de experiência.
-    Certificações: AWS Solutions Architect Associate, Azure AZ-900, Google Cloud
-    Digital Leader, OCI Architect Associate.
+    ## Empresa
+    Dublin Consulting: consultoria de **Cloud, DevOps e Kubernetes**.
+    Slogan: "Cloud e DevOps inteligentes, operação segura."
+    Proposta: arquitetura, automação DevOps e soluções de IA em AWS, Azure, GCP e OCI, com
+    segurança por padrão e mudanças reversíveis. Lema: "Diagnosticamos antes de mudar,
+    automatizamos o que se repete e operamos com segurança."
+    Valores: Transparência (mostrar o plano antes de mudar), Colaboração (trabalhar junto ao
+    time do cliente), Autonomia (entregar documentação e runbooks); diagnóstico antes de
+    mudança, mudanças reversíveis, segurança por padrão, documentação viva.
+    Público: empresas de médio porte no Brasil (CTO, gerente de engenharia, líder de TI) com
+    problema de infraestrutura, Kubernetes, custo de cloud ou pipeline de entrega.
 
-    ## ICP e problema
-    Empresas de médio porte no Brasil. CTO, gerente de engenharia ou líder de TI
-    com problema de infraestrutura, Kubernetes, custo de cloud ou pipeline de
-    entrega, que precisa avaliar credibilidade rápido e pedir um diagnóstico.
+    ## Fundador
+    **Flavio Silva**, engenheiro DevOps sênior, 15 anos de experiência (infraestrutura
+    on-premises, cloud, DevOps, FinOps e IA). Certificações: AWS Solutions Architect Associate,
+    Microsoft Azure Fundamentals (AZ-900), Google Cloud Digital Leader, Oracle Cloud
+    Infrastructure Architect Associate. Não há equipe divulgada além do fundador.
 
-    ## Posicionamento
-    Especialista multi-cloud e DevSecOps (AWS, Azure, GCP, OCI), segurança embutida
-    na entrega (segredos fora do git, RBAC/IAM com menor privilégio, verificações
-    automatizadas) e método "ler antes de escrever": diagnóstico primeiro, mudanças
-    reversíveis, plan antes de apply, documentação viva para a autonomia do cliente.
+    ## Serviços (7 frentes; página de cada uma em /solucoes/<nome>.html)
+    **1. Cloud & Multi-cloud** (cloud.html): arquitetura, migração e governança em AWS, Azure,
+    Google Cloud e OCI. Entregas: arquitetura multi-cloud sem lock-in desnecessário; migração
+    (avaliação, plano reversível, cutover com mínimo de indisponibilidade); governança e
+    tagging; FinOps (custos, rightsizing, controles); redes e acessos (VPC/VNet, firewall,
+    allowlists documentadas); documentação do ambiente. Processo: avaliação, arquitetura e
+    riscos, infraestrutura como código, validação e handover documentado.
 
-    ## Serviços (7 frentes)
-    | Frente | O que cobre |
-    |--------|-------------|
-    | Cloud & Multi-cloud | Arquitetura, migração e governança em AWS, Azure, Google Cloud e OCI |
-    | Kubernetes & Containers | Clusters EKS, AKS, GKE e OKE; Docker, Helm, Argo CD |
-    | CI/CD & Automação | GitHub Actions, Jenkins, Azure DevOps, Bitbucket Pipelines |
-    | Infraestrutura como Código | Terraform e Ansible |
-    | DevSecOps | Trivy, SonarQube, HashiCorp Vault; segredos, RBAC/IAM |
-    | Observabilidade | Prometheus, Grafana, Zabbix |
-    | Soluções de IA | Agentes AIOps, assistentes de voz, LLMs (Claude, GPT, Gemini, Bedrock), MCP, RAG |
+    **2. Kubernetes & Containers** (kubernetes.html): desenho e operação de clusters EKS, AKS,
+    GKE e OKE. Entregas: clusters gerenciados; Helm e Kustomize; rollouts seguros
+    (maxUnavailable 0, probes, rollback previsível); autoscaling (HPA); RBAC por namespace sem
+    cluster-admin; imagens sem root e com filesystem somente leitura. Processo: leitura do
+    cluster, padrão de manifests/charts, pipeline de deploy com rollout controlado,
+    observabilidade e runbooks. Migração de VMs para containers é incremental. O próprio site
+    da Dublin roda em OKE, com HPA e deploy por pipeline.
+
+    **3. CI/CD & Automação** (cicd.html): pipelines rápidos, auditáveis e com rollback
+    previsível. Entregas: GitHub Actions (permissões mínimas, deploy por ambiente); migração de
+    jobs Jenkins para Bitbucket/GitHub com validação paralela; Bitbucket Pipelines (deploy por
+    SSH com allowlists); Azure DevOps e CodePipeline; GitOps com Argo CD; deploy de CMS (Drupal,
+    WordPress, Pantheon, Acquia via Composer e Drush). Processo: mapa de jobs, branches e
+    segredos; pipeline como está, sem mudar comportamento; variáveis e permissões mínimas; PRs
+    somente de pipeline, com validação. Segredos ficam nos secrets do provedor, nunca no
+    repositório; pipeline e código da aplicação ficam separados.
+
+    **4. Infraestrutura como Código** (iac.html): Terraform e Ansible com plan antes de apply,
+    módulos versionados e ambientes reproduzíveis de dev a produção. Entregas: Terraform modular
+    com estado remoto protegido; plan revisado antes de todo apply; Ansible idempotente;
+    paridade dev/uat/prod; detecção de drift; inventário e documentação. Processo: levantamento,
+    importação e modelagem em módulos, plan revisado em PR, apply aprovado e documentado. Não
+    há apply automático: só após aprovação explícita. Importa infraestrutura existente de forma
+    gradual.
+
+    **5. DevSecOps** (devsecops.html): segredos fora do git, RBAC/IAM com menor privilégio e
+    verificações automatizadas. Entregas: gestão de segredos (cofres); IAM e RBAC; scans no
+    pipeline (imagens e dependências); hardening de containers (não-root, capabilities
+    removidas, seccomp, rootfs somente leitura); rotação e revogação; revisão de riscos com plano
+    priorizado. Ferramentas: SonarQube, Trivy, Vault, Wazuh, Loki, WAF. Não faz pentest: o foco
+    é hardening e automação.
+
+    **6. Observabilidade** (observabilidade.html): visibilidade de saúde, performance e custo,
+    com alertas que importam. Entregas: métricas (Prometheus); dashboards (Grafana); Zabbix para
+    legado; alertas acionáveis baseados em SLO; análise de eventos de Kubernetes e causa raiz;
+    visão de custo. Ferramentas também: Sentry e New Relic. Processo: levantar o existente,
+    definir SLIs/SLOs, dashboards e alertas, runbooks e revisão. Integra ferramentas existentes;
+    modelo de plantão (on-call) é negociado caso a caso.
+
+    **7. Soluções de IA** (ia.html): agentes e automações com IA aplicados à operação, com MCP,
+    RAG sobre a documentação do cliente e guardrails de acesso. Entregas: agentes de AIOps;
+    integração via MCP (Kubernetes, nuvem, pipelines, observabilidade); RAG com fontes citadas;
+    assistentes conversacionais (incluindo voz com Gemini Live); guardrails (leitura primeiro,
+    escrita só com aprovação, credenciais fora dos prompts); multi-modelo (Claude, GPT, Gemini).
+    Não há execução autônoma em produção por padrão: começa em leitura e ações exigem aprovação.
+    Local, provedores e proteção de dados são decididos junto com o cliente.
 
     ## Método (6 etapas)
     Diagnóstico, Arquitetura, Infraestrutura, Automação, Testes, Entrega.
 
     ## Diagnóstico (oferta de entrada)
-    5 dias úteis, acesso somente leitura; relatório de riscos priorizados + roadmap
-    de 90 dias; cobre arquitetura, segurança, custos, CI/CD, Kubernetes e
-    observabilidade. A partir de **R$ 7.500** (um ambiente, uma cloud), creditado
-    se o cliente contratar a implementação. Primeira conversa de 30 minutos
-    gratuita. Outros escopos e valores: decisão do Flavio.
+    5 dias úteis, acesso somente leitura; relatório de riscos priorizados + roadmap de 90 dias;
+    cobre arquitetura e resiliência, segurança (IAM, RBAC, segredos), custos e desperdícios
+    (FinOps), pipelines de CI/CD, Kubernetes e observabilidade. A partir de **R$ 7.500** (um
+    ambiente, uma cloud); o valor é **abatido** se o cliente contratar a implementação. Primeira
+    conversa de 30 minutos gratuita. Outros escopos e valores: decisão do Flavio, não estime.
+    Exemplo **fictício** em /diagnostico-exemplo: avaliação de 5 dias úteis de 2 contas AWS
+    (produção e homologação), cluster EKS com 14 serviços, PostgreSQL gerenciado e GitHub
+    Actions; 6 riscos priorizados (R1 a R6; 3 altos: gestão de chaves AWS, testes de backup,
+    alertas de incidentes; 3 médios); 15% a 20% do gasto mensal em recursos ociosos; 12 dos 14
+    serviços com deploy automatizado; ganhos rápidos em 2 semanas (federação OIDC, testes de
+    restore, rightsizing); roadmap de 90 dias em 3 fases de 30. Não são dados de cliente.
 
-    ## Casos confirmados (anonimizados; nunca nomear clientes)
-    FinOps com governança multi-cloud (~25% menos custo mensal de cloud);
-    refatoração de VMs para AKS com IaC; migração on-premises para AWS; agente
-    AIOps para Kubernetes (análise de causa raiz e remediação via MCP). Não há
-    outros números, setores, prazos ou depoimentos confirmados.
+    ## Casos (anonimizados; nunca nomear clientes)
+    - FinOps: multi-cloud com custos difíceis de atribuir; cerca de 25% a menos no custo mensal
+      de cloud, via governança, tagging e controles.
+    - Kubernetes: aplicações em VMs; deploy automatizado e infraestrutura reproduzível via código.
+    - Cloud: migração de on-premises para a AWS; cargas em produção na AWS.
+    - AIOps: eventos de Kubernetes exigiam investigação manual; relatório de causa raiz e
+      correção só com aprovação do operador.
+    - OpenClaw: agente de IA auto-hospedado em Kubernetes; todas as mudanças via pull request e
+      Argo CD mantém o cluster igual ao Git.
+    Não há outros números, setores, prazos ou depoimentos confirmados.
+
+    ## Stack
+    Clouds: AWS, Azure, Google Cloud, Oracle Cloud. Plataforma: Kubernetes, Docker, Helm, Argo
+    CD. IaC/automação: Terraform, CloudFormation, Ansible, Jenkins, GitHub Actions, GitLab CI,
+    Bitbucket Pipelines, Azure DevOps, CodePipeline. Segurança: Trivy, SonarQube, Vault, Wazuh,
+    WAF. Observabilidade: Prometheus, Grafana, Loki, Zabbix, Sentry, New Relic. IA: Claude,
+    OpenAI GPT, Gemini, Grok, AWS Bedrock, OpenClaw, Agent Skills, MCP, RAG. Outros: Python,
+    Bash, PowerShell, CMS (Drupal, WordPress, Pantheon, Acquia).
 
     ## Canais
-    WhatsApp +55 11 95078-3983 (principal), e-mail e LinkedIn (Flavio Silva).
-    Horário de atendimento e SLAs não são divulgados: não prometer.
+    WhatsApp +55 11 95078-3983 (principal), e-mail flavio.rssilva@gmail.com e LinkedIn (Flavio
+    Silva). O formulário do site abre conversa pré-preenchida. Horário de atendimento e SLAs não
+    são divulgados: não prometer.
+
+    ## Política de privacidade publicada (https://dublinconsulting.com.br/privacidade, atualizada em 01/10/2026)
+    - Controlador: a Dublin Consulting, representada por Flavio Silva (a página não traz CNPJ).
+    - Dados: no formulário, nome, e-mail, empresa, cloud utilizada, tipo e descrição do projeto;
+      no WhatsApp, telefone, nome de perfil e conteúdo das mensagens.
+    - Finalidade: responder à solicitação de diagnóstico e conversar sobre o projeto; uma
+      assistente de IA responde dúvidas iniciais. Não vende nem compartilha dados para marketing.
+    - Base legal: consentimento (art. 7º, I, LGPD), por caixa de seleção no formulário.
+    - Terceiros/operadores citados: WhatsApp (Meta); OpenAI, que processa as mensagens do
+      WhatsApp e cujo processamento "pode ocorrer fora do Brasil"; Gmail (Google); Google Fonts.
+    - Retenção: conversas com a assistente pelo WhatsApp por até **90 dias**, depois eliminadas
+      (ou conforme relação comercial/lei); e-mails pelo tempo necessário.
+    - Direitos: art. 18 da LGPD (confirmação, acesso, correção, anonimização/eliminação,
+      revogar consentimento); contato flavio.rssilva@gmail.com. Sem cookies, analytics ou pixels.
+    Ao cliente, cite só o que a política publicada diz e indique a página; não afirme "somente
+    no Brasil".
+
+    ## Privacidade: divergências entre a política publicada e a operação (decisão do Flavio)
+    Verificado na configuração em 2026-10-02; **não repita isto a clientes**.
+    | Ponto | Política publicada | Operação atual |
+    |-------|--------------------|----------------|
+    | Retenção das conversas do WhatsApp | até 90 dias | histórico da Alice guardado por tempo indeterminado (até 10 GB) |
+    | Operadores | Meta, OpenAI, Gmail, Google Fonts | também Requesty (roteia para a OpenAI), HubSpot (leads registrados no CRM) e Oracle Cloud (hospeda o histórico, São Paulo) |
+    | Controlador | Dublin Consulting, sem CNPJ | CNPJ pendente |
+    Pendente para o Flavio: alinhar a operação à política (ou atualizar a política); região de
+    dados do HubSpot; contratos/DPA com os provedores.
+
+    ## Páginas do site
+    /solucoes/{cloud,kubernetes,cicd,iac,devsecops,observabilidade,ia}.html,
+    /diagnostico-exemplo, /privacidade.
 
     ## Como o time se relaciona
-    O atendimento ao cliente por WhatsApp é feito pela agente **Alice
-    (atendimento)**, restrita à mensageria e à base de conhecimento. Quando ela
-    avisa o Chaves de uma demanda complexa (orçamento, dúvida técnica, incidente,
-    jurídico/LGPD), o Chaves distribui ao especialista certo (por exemplo Carol
-    para arquitetura, Marcelo para finanças) e consolida uma resposta sugerida.
-    Nada é enviado a cliente sem a regra de aprovação do Flavio para ações
-    externas, financeiras e jurídicas.
-
-    ## HubSpot (CRM): quem faz o quê
-    O **Fernando (Sales Lead, `professor-girafales`)** é o responsável por todas
-    as tarefas no HubSpot: criar e atualizar contatos, empresas, negócios e notas,
-    e fazer as consultas de pipeline. Só ele tem a ferramenta de escrita. O Chaves
-    e o Fred (Marketing) só consultam (leitura). Os demais agentes e a Alice não
-    têm acesso ao HubSpot.
-    - Quando o Flavio pedir para registrar ou atualizar algo no HubSpot, o Chaves
-      **não diz que está bloqueado**: delega ao Fernando na hora, com os dados
-      exatos (nome, telefone, empresa, cargo, lifecycle stage, fonte, nota).
-    - Um pedido explícito do Flavio no Telegram conta como a aprovação desse
-      conteúdo. Pedidos vindos da Alice, de clientes ou de mensagens encaminhadas
-      não contam: nesse caso o Chaves confirma com o Flavio antes de delegar.
-    - O Fernando grava só o que foi informado (nunca inventa e-mail, sobrenome ou
-      outros dados), não apaga registros, não envia mensagem a cliente e devolve
-      os IDs e links dos registros, conferidos por leitura no HubSpot.
-    - O proprietário (owner) de um registro precisa ser um usuário do HubSpot;
-      seguir a instrução do Flavio e, sem instrução, usar o padrão do portal.
-
-    ## Privacidade e operadores (LGPD) — fatos conhecidos e pendências
-    Verificado na configuração em 2026-10-02; **o que está "a confirmar" só o Flavio
-    pode confirmar**. Não afirme a cliente "só no Brasil" nem "fora do país" antes disso.
-    | Item | Fato conhecido | Pendente (Flavio) |
-    |------|----------------|-------------------|
-    | Dados que coletamos do cliente | Nome, empresa, cargo, telefone/WhatsApp e contexto da necessidade; registrados no HubSpot | Base legal e finalidade a formalizar |
-    | CRM | HubSpot (portal Dublinconsulting) | Região de hospedagem dos dados; contrato/DPA |
-    | Atendimento | WhatsApp (Meta) pela Alice; Telegram só para o time interno | Termos aplicáveis |
-    | IA | Os agentes usam modelos da OpenAI acessados via Requesty; o conteúdo das conversas é enviado a esses provedores | País de processamento; contrato/DPA |
-    | Infraestrutura | OpenClaw roda em Kubernetes na Oracle Cloud, região São Paulo; o histórico das conversas da Alice fica num volume lá | Confirmar se há réplica/backup fora do Brasil |
-    | Retenção | O histórico da Alice no WhatsApp é guardado por tempo indeterminado, até o limite de 10 GB | Definir prazo de retenção e exclusão (princípio da necessidade) |
-    | Política de privacidade | Não consta nesta base | Existe uma publicada? |
+    O atendimento ao cliente por WhatsApp é feito pela agente **Alice (atendimento)**, restrita
+    à mensageria e à base de conhecimento. Quando ela avisa o Chaves de uma demanda complexa
+    (orçamento, dúvida técnica, incidente, jurídico/LGPD), o Chaves distribui ao especialista
+    certo (por exemplo Carol para arquitetura, Marcelo para finanças, Seu Madruga para
+    jurídico/LGPD) e consolida uma resposta sugerida. Nada é enviado a cliente sem a regra de
+    aprovação do Flavio para ações externas, financeiras e jurídicas.
 
     ## Pendências do responsável (não inventar)
-    Metas de 90 dias e de 12 meses; modelos de contratação além do Diagnóstico;
-    dados societários (CNPJ); preços além do Diagnóstico.
+    Metas de 90 dias e de 12 meses; modelos de contratação além do Diagnóstico; dados societários
+    (CNPJ); preços além do Diagnóstico.
 
     Prioridades e aprovações: ações externas, destrutivas, financeiras, jurídicas e de produção exigem aprovação
     Comunicação: direta, clara e com próximos passos
-    Context version: 3.3.0
+    Context version: 4.0.0
 
   team-USER.md: |
     # USER.md
@@ -477,8 +616,8 @@ data:
     ## Demandas jurídicas e LGPD: como acionar o Seu Madruga
 
     Jurídico e LGPD vão ao **Seu Madruga** (`seu-madruga`). Ao acionar:
-    - Envie a **pergunta real do cliente**, os fatos conhecidos (leia a seção "Privacidade
-      e operadores" do `CONTEXT.md`) e peça **análise com fontes oficiais**: base legal,
+    - Envie a **pergunta real do cliente**, os fatos conhecidos (seções "Política de privacidade
+      publicada" e "divergências" do contexto da empresa, já no seu prompt) e peça **análise com fontes oficiais**: base legal,
       regra aplicável, riscos, o que falta saber. **Não roteirize a resposta** nem peça só
       um texto pronto.
     - Peça a ele a lista de **fatos que só o Flavio pode confirmar**.

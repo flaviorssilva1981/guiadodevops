@@ -76,3 +76,6 @@ providers = {
   oci.home = oci
 }
 ```
+
+# HubSpot MCP connector credentials (local only)
+/hubspot

@@ -77,6 +77,9 @@ spec:
                 # "pendente de personalização" template or still carry the
                 # dublin-managed-context marker (git-managed) or the first managed v1
                 # text ("que escala ao Chaves"), so hand edits that drop them survive.
+                # (3) A HubSpot routing block (between dublin-hubspot markers) is appended
+                # to TOOLS.md of chaves/kiko/professor-girafales on every start: TOOLS.md
+                # is injected into each turn, CONTEXT.md is not.
                 # Never fails the pod: errors are ignored (exit 0).
                 seed-agent-files:
                   image:
@@ -101,6 +104,14 @@ spec:
                             cp "/seed/team-$t.md" "$w/$t.md"
                           fi
                         done
+                      done
+                      # HubSpot routing block -> injected TOOLS.md (rewritten every start;
+                      # chaves+kiko read-only, professor-girafales owner).
+                      for pair in "$R/workspace:readonly" "$R/workspaces/kiko:readonly" "$R/workspaces/professor-girafales:owner"; do
+                        w="${pair%%:*}"; k="${pair##*:}"
+                        [ -f "$w/TOOLS.md" ] || continue
+                        sed -i '/<!-- dublin-hubspot:start/,/<!-- dublin-hubspot:end -->/d' "$w/TOOLS.md"
+                        { echo; cat "/seed/team-HUBSPOT-$k.md"; } >> "$w/TOOLS.md"
                       done
                       exit 0
                   securityContext:

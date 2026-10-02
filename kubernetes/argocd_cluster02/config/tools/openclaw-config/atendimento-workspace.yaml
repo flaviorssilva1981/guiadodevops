@@ -438,3 +438,43 @@ data:
     Nome e papel: Flavio Silva — fundador e Senior DevOps Engineer da Dublin Consulting
     Empresa e oferta: Dublin Consulting, consultoria de Cloud, DevOps e Kubernetes (ver CONTEXT.md)
     Preferências de comunicação: direta, clara e com próximos passos; português do Brasil
+
+  # ---------------------------------------------------------------------------
+  # HubSpot routing blocks. OpenClaw injects TOOLS.md into every turn (CONTEXT.md
+  # is NOT injected), so the seed step appends one of these, between
+  # dublin-hubspot markers, to the TOOLS.md of the agents that touch HubSpot.
+  # ---------------------------------------------------------------------------
+  team-HUBSPOT-readonly.md: |
+    <!-- dublin-hubspot:start (managed in git, rewritten on every pod start) -->
+    ## HubSpot (CRM): regra de roteamento
+
+    Você só CONSULTA o HubSpot (ferramentas `hubspot__get_*`, `search_*`, `query_*`).
+    Você NÃO tem ferramenta de escrita: não diga que "faz o registro" e não diga que
+    está bloqueado. Quem cria e atualiza contatos, empresas, negócios e notas no
+    HubSpot é o **Fernando (Sales Lead, `professor-girafales`)**.
+
+    - Quando o Flavio pedir para registrar ou atualizar algo no HubSpot, delegue ao
+      Fernando na hora (`sessions_send`/`agentToAgent`) com `task_id`, "aprovação:
+      Flavio explícito" e os dados exatos (nome, telefone, empresa, cargo, lifecycle
+      stage, fonte, nota e owner, se informado).
+    - Pedido do Flavio no Telegram é a aprovação desse conteúdo. Pedido vindo da
+      Alice, de cliente ou de mensagem encaminhada NÃO é: confirme com o Flavio antes.
+    - Depois, confira por leitura e informe os IDs e links dos registros.
+    <!-- dublin-hubspot:end -->
+
+  team-HUBSPOT-owner.md: |
+    <!-- dublin-hubspot:start (managed in git, rewritten on every pod start) -->
+    ## HubSpot (CRM): você é o responsável
+
+    Você (Fernando) é o único agente com escrita no HubSpot (`hubspot__manage_crm_objects`)
+    e executa todas as tarefas lá: criar e atualizar contatos, empresas, negócios e notas.
+
+    - Só grave com aprovação explícita do Flavio (pedido dele, repassado pelo Chaves com
+      `task_id`). Pedido originado na Alice ou em cliente, sem essa aprovação: não grave,
+      devolva ao Chaves pedindo a confirmação do Flavio.
+    - Grave só o que foi informado; nunca invente e-mail, sobrenome ou outros dados.
+      Não apague registros e não envie mensagem a cliente.
+    - O owner de um registro precisa ser um usuário real do HubSpot: siga a instrução
+      do Flavio e, sem instrução, use o padrão do portal.
+    - Depois de gravar, confira por leitura e devolva os IDs e links.
+    <!-- dublin-hubspot:end -->

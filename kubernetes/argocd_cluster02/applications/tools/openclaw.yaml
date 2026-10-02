@@ -183,6 +183,18 @@ spec:
           # (#192) and reverted (#194) because the router returns 403 "not approved
           # for this API key". Re-add it if a transcription model is ever approved,
           # or point it at a non-Requesty STT provider.
+          # NOTE (mcp.servers.hubspot): HubSpot CRM via the remote MCP server
+          # (https://mcp.hubspot.com). OAuth only, and HubSpot has no dynamic client
+          # registration (no registration_endpoint), so the pre-registered MCP
+          # connector's client id/secret are seeded ONCE into OpenClaw's OAuth store on
+          # the PVC (state/mcp-oauth/) from HUBSPOT_CLIENT_ID / HUBSPOT_CLIENT_SECRET
+          # (Vault secret/openclaw), then `openclaw mcp login hubspot` stores tokens.
+          # Shipped `enabled: false`; flip to true once login has been completed.
+          # MCP tools are projected into every agent (profile full / messaging), so
+          # access is cut per agent: professor-girafales (Sales Lead) = full CRM
+          # read/write; chaves + kiko = read-only (hubspot__manage_* denied); everyone
+          # else incl. the customer-facing atendimento agent = bundle-mcp denied.
+          # toolFilter.exclude drops the marketing/portal-admin write tools nobody needs.
           configMaps:
             config:
               data:
@@ -234,7 +246,7 @@ spec:
                             "name": "Edu - CEO",
                             "emoji": "👔"
                           },
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["hubspot__manage_*"] },
                           "skills": ["time-chaves-operating-system","team-bundle-installer","web-research-with-sources","market-research","business-health-diagnostic","scenario-planning","idea-scoring","executive-briefing","presentation-builder","professional-report-builder","document-builder"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin","atendimento"] }
                         },
@@ -242,7 +254,7 @@ spec:
                           "id": "chiquinha",
                           "name": "Carol - Solutions Architect",
                           "workspace": "/home/node/.openclaw/workspaces/chiquinha",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["bundle-mcp"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","diagram-maker","architecture-review","api-testing","security-review","webapp-testing"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
@@ -250,7 +262,7 @@ spec:
                           "id": "dona-florinda",
                           "name": "Daniela - Creative Director",
                           "workspace": "/home/node/.openclaw/workspaces/dona-florinda",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["bundle-mcp"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","creative-ideation","idea-scoring","concept-visualizer","premium-visual-experience","visual-design-system","scenario-planning","market-research"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
@@ -258,7 +270,7 @@ spec:
                           "id": "kiko",
                           "name": "Fred - Marketing",
                           "workspace": "/home/node/.openclaw/workspaces/kiko",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["hubspot__manage_*"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","market-research","ad-creative","cro-seo-analytics","conversion-copywriting","product-marketing-context","social-intelligence","pricing-launch-strategy","idea-scoring"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
@@ -266,7 +278,7 @@ spec:
                           "id": "senhor-barriga",
                           "name": "Marcelo - Finance Analyst",
                           "workspace": "/home/node/.openclaw/workspaces/senhor-barriga",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["bundle-mcp"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","cashflow-dre","financial-modeling","unit-economics-budgeting","spreadsheet-analyst","professional-report-builder","business-health-diagnostic","scenario-planning"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
@@ -282,7 +294,7 @@ spec:
                           "id": "seu-madruga",
                           "name": "Gustavo - Legal Counsel",
                           "workspace": "/home/node/.openclaw/workspaces/seu-madruga",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["bundle-mcp"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","brazilian-legal-research","contract-lgpd-review","legal-risk-visual-law","professional-report-builder"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
@@ -290,7 +302,7 @@ spec:
                           "id": "bruxa-do-71",
                           "name": "Patricia - Copywriter",
                           "workspace": "/home/node/.openclaw/workspaces/bruxa-do-71",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["bundle-mcp"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","conversion-copywriting","copy-critic","ad-creative","vsl-video-script","product-marketing-context"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         },
@@ -298,7 +310,7 @@ spec:
                           "id": "chapolin",
                           "name": "Julio - Marketplace Ops",
                           "workspace": "/home/node/.openclaw/workspaces/chapolin",
-                          "tools": { "profile": "full" },
+                          "tools": { "profile": "full", "deny": ["bundle-mcp"] },
                           "skills": ["time-chaves-operating-system","web-research-with-sources","document-builder","marketplace-research","margin-listing-optimizer","inventory-competitor-go-no-go","pricing-launch-strategy","unit-economics-budgeting","cro-seo-analytics"],
                           "subagents": { "allowAgents": ["chaves","chiquinha","dona-florinda","kiko","senhor-barriga","professor-girafales","seu-madruga","bruxa-do-71","chapolin"] }
                         }
@@ -309,12 +321,29 @@ spec:
                           "identity": { "name": "Alice - Atendimento", "emoji": "💬" },
                           "tools": {
                             "profile": "messaging",
-                            "deny": ["group:runtime","group:fs","group:web","group:media","group:plugins","browser","canvas","cron","gateway","nodes"]
+                            "deny": ["group:runtime","group:fs","group:web","group:media","group:plugins","browser","canvas","cron","gateway","nodes","bundle-mcp"]
                           },
                           "skills": [],
                           "subagents": { "allowAgents": ["chaves"] }
                         }
                       ]
+                    },
+
+                    "mcp": {
+                      "servers": {
+                        "hubspot": {
+                          "url": "https://mcp.hubspot.com/",
+                          "transport": "streamable-http",
+                          "auth": "oauth",
+                          "oauth": { "redirectUrl": "http://localhost:8989/oauth/callback" },
+                          "enabled": false,
+                          "timeout": 30,
+                          "connectTimeout": 10,
+                          "toolFilter": {
+                            "exclude": ["manage_landing_page","manage_marketing_email","manage_onboarding","manage_aeo_*","manage_segment","manage_custom_properties","manage_custom_pipelines","manage_campaign_objects","submit_feedback"]
+                          }
+                        }
+                      }
                     },
 
                     "models": {

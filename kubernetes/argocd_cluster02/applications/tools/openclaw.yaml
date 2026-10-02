@@ -200,7 +200,9 @@ spec:
           # 60-min idle reset. maintenance.pruneAfter/resetArchiveRetention are raised from
           # their 30d default, which would otherwise delete stale sessions and reset
           # archives. Long sessions are compacted by OpenClaw, so recall is summarized, not
-          # verbatim. Disk: watch the sessions dir (add maintenance.maxDiskBytes if needed).
+          # verbatim. Disk: maintenance.maxDiskBytes=10gb is a safety valve (PVC is 50Gi,
+          # ~2.5G used, sessions ~0.5G on 2026-10-02); beyond it the OLDEST sessions/archives
+          # are removed first, so "forever" is bounded by this budget.
           # NOTE (mcp.servers.hubspot): HubSpot CRM via the remote MCP server
           # (https://mcp.hubspot.com). OAuth only, and HubSpot has no dynamic client
           # registration (no registration_endpoint), so the pre-registered MCP
@@ -396,7 +398,8 @@ spec:
                       },
                       "maintenance": {
                         "pruneAfter": "3650d",
-                        "resetArchiveRetention": "3650d"
+                        "resetArchiveRetention": "3650d",
+                        "maxDiskBytes": "10gb"
                       }
                     },
 

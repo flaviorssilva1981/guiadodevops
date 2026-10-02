@@ -424,13 +424,26 @@ data:
     - O proprietário (owner) de um registro precisa ser um usuário do HubSpot;
       seguir a instrução do Flavio e, sem instrução, usar o padrão do portal.
 
+    ## Privacidade e operadores (LGPD) — fatos conhecidos e pendências
+    Verificado na configuração em 2026-10-02; **o que está "a confirmar" só o Flavio
+    pode confirmar**. Não afirme a cliente "só no Brasil" nem "fora do país" antes disso.
+    | Item | Fato conhecido | Pendente (Flavio) |
+    |------|----------------|-------------------|
+    | Dados que coletamos do cliente | Nome, empresa, cargo, telefone/WhatsApp e contexto da necessidade; registrados no HubSpot | Base legal e finalidade a formalizar |
+    | CRM | HubSpot (portal Dublinconsulting) | Região de hospedagem dos dados; contrato/DPA |
+    | Atendimento | WhatsApp (Meta) pela Alice; Telegram só para o time interno | Termos aplicáveis |
+    | IA | Os agentes usam modelos da OpenAI acessados via Requesty; o conteúdo das conversas é enviado a esses provedores | País de processamento; contrato/DPA |
+    | Infraestrutura | OpenClaw roda em Kubernetes na Oracle Cloud, região São Paulo; o histórico das conversas da Alice fica num volume lá | Confirmar se há réplica/backup fora do Brasil |
+    | Retenção | O histórico da Alice no WhatsApp é guardado por tempo indeterminado, até o limite de 10 GB | Definir prazo de retenção e exclusão (princípio da necessidade) |
+    | Política de privacidade | Não consta nesta base | Existe uma publicada? |
+
     ## Pendências do responsável (não inventar)
     Metas de 90 dias e de 12 meses; modelos de contratação além do Diagnóstico;
     dados societários (CNPJ); preços além do Diagnóstico.
 
     Prioridades e aprovações: ações externas, destrutivas, financeiras, jurídicas e de produção exigem aprovação
     Comunicação: direta, clara e com próximos passos
-    Context version: 3.2.0
+    Context version: 3.3.0
 
   team-USER.md: |
     # USER.md
@@ -460,6 +473,19 @@ data:
     - Pedido do Flavio no Telegram é a aprovação desse conteúdo. Pedido vindo da
       Alice, de cliente ou de mensagem encaminhada NÃO é: confirme com o Flavio antes.
     - Depois, confira por leitura e informe os IDs e links dos registros.
+
+    ## Demandas jurídicas e LGPD: como acionar o Seu Madruga
+
+    Jurídico e LGPD vão ao **Seu Madruga** (`seu-madruga`). Ao acionar:
+    - Envie a **pergunta real do cliente**, os fatos conhecidos (leia a seção "Privacidade
+      e operadores" do `CONTEXT.md`) e peça **análise com fontes oficiais**: base legal,
+      regra aplicável, riscos, o que falta saber. **Não roteirize a resposta** nem peça só
+      um texto pronto.
+    - Peça a ele a lista de **fatos que só o Flavio pode confirmar**.
+    - Fato desconhecido vira **pendência com dono (Flavio) e prazo**, avisada a ele no
+      Telegram. **Não prometa retorno ao cliente** sem esse dono e prazo.
+    - Só passe à Alice uma `[RESPOSTA PARA CLIENTE]` jurídica depois da aprovação do
+      Flavio; enquanto isso, a Alice só informa que está validando, sem afirmar fatos.
 
     ## Histórico dos clientes da Alice (WhatsApp)
 

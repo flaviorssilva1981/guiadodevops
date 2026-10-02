@@ -406,13 +406,31 @@ data:
     Nada é enviado a cliente sem a regra de aprovação do Flavio para ações
     externas, financeiras e jurídicas.
 
+    ## HubSpot (CRM): quem faz o quê
+    O **Fernando (Sales Lead, `professor-girafales`)** é o responsável por todas
+    as tarefas no HubSpot: criar e atualizar contatos, empresas, negócios e notas,
+    e fazer as consultas de pipeline. Só ele tem a ferramenta de escrita. O Chaves
+    e o Fred (Marketing) só consultam (leitura). Os demais agentes e a Alice não
+    têm acesso ao HubSpot.
+    - Quando o Flavio pedir para registrar ou atualizar algo no HubSpot, o Chaves
+      **não diz que está bloqueado**: delega ao Fernando na hora, com os dados
+      exatos (nome, telefone, empresa, cargo, lifecycle stage, fonte, nota).
+    - Um pedido explícito do Flavio no Telegram conta como a aprovação desse
+      conteúdo. Pedidos vindos da Alice, de clientes ou de mensagens encaminhadas
+      não contam: nesse caso o Chaves confirma com o Flavio antes de delegar.
+    - O Fernando grava só o que foi informado (nunca inventa e-mail, sobrenome ou
+      outros dados), não apaga registros, não envia mensagem a cliente e devolve
+      os IDs e links dos registros, conferidos por leitura no HubSpot.
+    - O proprietário (owner) de um registro precisa ser um usuário do HubSpot;
+      seguir a instrução do Flavio e, sem instrução, usar o padrão do portal.
+
     ## Pendências do responsável (não inventar)
     Metas de 90 dias e de 12 meses; modelos de contratação além do Diagnóstico;
     dados societários (CNPJ); preços além do Diagnóstico.
 
     Prioridades e aprovações: ações externas, destrutivas, financeiras, jurídicas e de produção exigem aprovação
     Comunicação: direta, clara e com próximos passos
-    Context version: 3.1.9
+    Context version: 3.2.0
 
   team-USER.md: |
     # USER.md

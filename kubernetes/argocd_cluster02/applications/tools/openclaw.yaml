@@ -217,6 +217,10 @@ spec:
           # client messages also exist in Chaves' relayed sessions and in HubSpot notes, which
           # this setting does not cover. maxDiskBytes=10gb is a safety valve (PVC 50Gi): beyond it
           # the OLDEST sessions go first. Long sessions are compacted, so recall is summarized.
+          # NOTE (mcp.sessionIdleTtlMs: 0): OpenClaw closes a session's MCP runtime after 10 min idle
+          # (default). On 2026-10-02 Fernando's long-lived session got "bundle-mcp runtime disposed"
+          # on a HubSpot write 11.5 min after his previous call. 0 disables the idle reap; runtimes are
+          # still disposed when a session is deleted/reset, and only HubSpot-using sessions create one.
           # NOTE (mcp.servers.hubspot): HubSpot CRM via the remote MCP server
           # (https://mcp.hubspot.com). OAuth only, and HubSpot has no dynamic client
           # registration (no registration_endpoint), so the pre-registered MCP
@@ -365,6 +369,7 @@ spec:
                     },
 
                     "mcp": {
+                      "sessionIdleTtlMs": 0,
                       "servers": {
                         "hubspot": {
                           "url": "https://mcp.hubspot.com/",

@@ -612,6 +612,13 @@ data:
       Fernando na hora (`sessions_send`/`agentToAgent`) com `task_id`, "aprovação:
       Flavio explícito" e os dados exatos (nome, telefone, empresa, cargo, lifecycle
       stage, fonte, nota e owner, se informado).
+    - **Nunca use `sessions_spawn` nem subagente para o Fernando.** Um subagente herda os seus
+      bloqueios e perde a ferramenta de escrita do HubSpot. Use `sessions_send` com `sessionKey`
+      `agent:professor-girafales:hubspot-<task_id>` (sessão nova do próprio Fernando, sem herdar
+      seus bloqueios e com conexão nova) ou `agent:professor-girafales:main`.
+    - Se a escrita falhar com erro técnico (ex.: "runtime disposed"), **tente de novo com outra
+      `sessionKey`**. A ferramenta de escrita **já está habilitada** para o Fernando: não peça ao
+      Flavio para "habilitar/expor" nada; reporte o erro exato.
     - Pedido do Flavio no Telegram é a aprovação desse conteúdo. Pedido vindo da
       Alice, de cliente ou de mensagem encaminhada NÃO é: confirme com o Flavio antes.
     - Depois, confira por leitura e informe os IDs e links dos registros.

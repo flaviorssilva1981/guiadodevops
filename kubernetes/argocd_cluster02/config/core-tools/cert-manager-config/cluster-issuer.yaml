@@ -14,6 +14,16 @@ spec:
       name: letsencrypt
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
+    # DNS-01 for our zone: independent of the Cloudflare proxy (redirects, Bot Fight Mode, origin lock).
+    - selector:
+        dnsZones:
+          - dublinconsulting.com.br
+      dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-api-token
+            key: CF_API_KEY
+    # Fallback for any other zone.
     - http01:
         ingress:
           ingressClassName: nginx

@@ -7,6 +7,11 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt"
     external-dns.alpha.kubernetes.io/hostname: eurotrip2026.dublinconsulting.com.br
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    # Origin lock: only accept clients presenting Cloudflare's origin-pull client certificate (mTLS).
+    nginx.ingress.kubernetes.io/auth-tls-secret: "eurotrip2026/cloudflare-origin-pull-ca"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
 spec:
   tls:
     - hosts:

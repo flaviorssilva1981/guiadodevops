@@ -506,6 +506,11 @@ spec:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
                 external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+                # Origin lock: accept TLS clients only with Cloudflare's origin-pull certificate (mTLS).
+                nginx.ingress.kubernetes.io/auth-tls-secret: "ai-agents/cloudflare-origin-pull-ca"
+                nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+                nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+                nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
                 nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
                 nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
                 # No nginx Basic auth: the Control UI is a WebSocket-backed SPA and
@@ -535,6 +540,11 @@ spec:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
                 external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+                # Origin lock: accept TLS clients only with Cloudflare's origin-pull certificate (mTLS).
+                nginx.ingress.kubernetes.io/auth-tls-secret: "ai-agents/cloudflare-origin-pull-ca"
+                nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+                nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+                nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
                 # Claw3D streams runtime events over a long-lived connection; match
                 # the generous proxy timeouts used for the gateway ingress above.
                 nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"

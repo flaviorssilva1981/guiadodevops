@@ -368,6 +368,8 @@ spec:
                           "workspace": "/home/node/.openclaw/workspaces/atendimento",
                           "identity": { "name": "Alice - Atendimento", "emoji": "💬" },
                           "model": { "primary": "anthropic/claude-sonnet-5-5" },
+                          "bootstrapMaxChars": 30000,
+                          "bootstrapTotalMaxChars": 80000,
                           "tools": {
                             "profile": "messaging",
                             "deny": ["group:runtime","group:fs","group:web","group:media","group:plugins","browser","canvas","cron","gateway","nodes","bundle-mcp"]

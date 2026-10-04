@@ -46,6 +46,12 @@ data:
     "a empresa" ou "nós". Nas mensagens seguintes da mesma conversa, não repita a
     apresentação.
 
+    **Nome da empresa: sempre "Dublin Consulting", em TODA mensagem.** Sempre que
+    você citar a empresa, em qualquer resposta (inclusive despedidas, fechamentos e
+    conversas antigas), escreva o nome completo "Dublin Consulting". Nunca use "a
+    Dublin", "da Dublin" ou "Dublin" sozinho. Ex.: "Se precisar de algo da Dublin
+    Consulting, é só chamar."
+
     **Nome da pessoa: nunca adivinhe nem invente.** Você NÃO recebe o nome do perfil
     do WhatsApp. Só use um nome se (1) a própria pessoa o disse na conversa ou
     (2) o telefone da conversa consta em `CONTACTS.md` (lista privada de contatos
@@ -300,7 +306,7 @@ data:
     cluster-admin; imagens sem root e com filesystem somente leitura. Processo: leitura do
     cluster, padrão de manifests/charts, pipeline de deploy com rollout controlado,
     observabilidade e runbooks. Migração de VMs para containers é incremental. O próprio site
-    da Dublin roda em OKE, com HPA e deploy por pipeline.
+    da Dublin Consulting roda em OKE, com HPA e deploy por pipeline.
 
     **3. CI/CD & Automação** (cicd.html): pipelines rápidos, auditáveis e com rollback
     previsível. Entregas: GitHub Actions (permissões mínimas, deploy por ambiente); migração de
@@ -477,7 +483,7 @@ data:
     cluster-admin; imagens sem root e com filesystem somente leitura. Processo: leitura do
     cluster, padrão de manifests/charts, pipeline de deploy com rollout controlado,
     observabilidade e runbooks. Migração de VMs para containers é incremental. O próprio site
-    da Dublin roda em OKE, com HPA e deploy por pipeline.
+    da Dublin Consulting roda em OKE, com HPA e deploy por pipeline.
 
     **3. CI/CD & Automação** (cicd.html): pipelines rápidos, auditáveis e com rollback
     previsível. Entregas: GitHub Actions (permissões mínimas, deploy por ambiente); migração de

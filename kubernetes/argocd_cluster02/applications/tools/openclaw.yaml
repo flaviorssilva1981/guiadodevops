@@ -367,6 +367,7 @@ spec:
                           "name": "Alice - Atendimento",
                           "workspace": "/home/node/.openclaw/workspaces/atendimento",
                           "identity": { "name": "Alice - Atendimento", "emoji": "💬" },
+                          "model": { "primary": "anthropic/claude-sonnet-5-5" },
                           "tools": {
                             "profile": "messaging",
                             "deny": ["group:runtime","group:fs","group:web","group:media","group:plugins","browser","canvas","cron","gateway","nodes","bundle-mcp"]
@@ -405,6 +406,12 @@ spec:
                             {
                               "id": "claude-haiku-4-5-20251001",
                               "name": "Claude Haiku 4.5",
+                              "contextWindow": 200000,
+                              "maxTokens": 64000
+                            },
+                            {
+                              "id": "claude-sonnet-5-5",
+                              "name": "Claude Sonnet 5.5",
                               "contextWindow": 200000,
                               "maxTokens": 64000
                             }

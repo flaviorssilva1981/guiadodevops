@@ -125,6 +125,15 @@ spec:
                         sed -i '/<!-- dublin-context:start/,/<!-- dublin-context:end -->/d' "$w/USER.md"
                         { echo; echo '<!-- dublin-context:start (managed in git, rewritten on every pod start from CONTEXT.md) -->'; cat "$w/CONTEXT.md"; echo '<!-- dublin-context:end -->'; } >> "$w/USER.md"
                       done
+                      # Private contact names (phone -> name): CONTACTS.md exists only on the PVC
+                      # (personal data, never in git). When present it is appended to USER.md so
+                      # the agent uses a person's name only if their number is listed.
+                      for w in "$R/workspace" "$R"/workspaces/*; do
+                        [ -f "$w/USER.md" ] || continue
+                        sed -i '/<!-- dublin-contacts:start/,/<!-- dublin-contacts:end -->/d' "$w/USER.md"
+                        [ -f "$w/CONTACTS.md" ] || continue
+                        { echo; echo '<!-- dublin-contacts:start (private list on the volume, rewritten on every pod start from CONTACTS.md) -->'; cat "$w/CONTACTS.md"; echo '<!-- dublin-contacts:end -->'; } >> "$w/USER.md"
+                      done
                       exit 0
                   securityContext:
                     readOnlyRootFilesystem: true

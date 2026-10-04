@@ -505,7 +505,7 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
-                external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+                external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
                 nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
                 nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
                 # No nginx Basic auth: the Control UI is a WebSocket-backed SPA and
@@ -534,7 +534,7 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt"
                 external-dns.alpha.kubernetes.io/hostname: dublinconsulting.com.br
-                external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+                external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
                 # Claw3D streams runtime events over a long-lived connection; match
                 # the generous proxy timeouts used for the gateway ingress above.
                 nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"

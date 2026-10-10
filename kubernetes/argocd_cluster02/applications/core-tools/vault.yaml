@@ -11,6 +11,12 @@ spec:
     helm:
       values: |-
         server:
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            timeoutSeconds: 10
           ingress:
             enabled: true
             annotations:

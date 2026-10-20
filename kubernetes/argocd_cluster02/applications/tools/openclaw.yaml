@@ -269,7 +269,7 @@ spec:
                       "defaults": {
                         "workspace": "/home/node/.openclaw/workspace",
                         "model": {
-                          "primary": "anthropic/claude-haiku-4-5-20251001"
+                          "primary": "openai/gpt-5.5"
                         },
                         "userTimezone": "UTC",
                         "timeoutSeconds": 600,
@@ -367,7 +367,6 @@ spec:
                           "name": "Alice - Atendimento",
                           "workspace": "/home/node/.openclaw/workspaces/atendimento",
                           "identity": { "name": "Alice - Atendimento", "emoji": "💬" },
-                          "model": { "primary": "anthropic/claude-sonnet-5-5" },
                           "bootstrapMaxChars": 30000,
                           "bootstrapTotalMaxChars": 80000,
                           "tools": {
@@ -400,22 +399,16 @@ spec:
 
                     "models": {
                       "providers": {
-                        "anthropic": {
-                          "baseUrl": "https://api.anthropic.com",
-                          "apiKey": "${ANTHROPIC_API_KEY}",
-                          "api": "anthropic-messages",
+                        "openai": {
+                          "baseUrl": "https://api.openai.com/v1",
+                          "apiKey": "${OPENAI_API_KEY}",
+                          "api": "openai-responses",
                           "models": [
                             {
-                              "id": "claude-haiku-4-5-20251001",
-                              "name": "Claude Haiku 4.5",
-                              "contextWindow": 200000,
-                              "maxTokens": 64000
-                            },
-                            {
-                              "id": "claude-sonnet-5-5",
-                              "name": "Claude Sonnet 5.5",
-                              "contextWindow": 200000,
-                              "maxTokens": 64000
+                              "id": "gpt-5.5",
+                              "name": "GPT-5.5",
+                              "contextWindow": 272000,
+                              "maxTokens": 128000
                             }
                           ]
                         }

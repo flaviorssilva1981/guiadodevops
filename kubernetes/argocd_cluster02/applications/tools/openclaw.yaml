@@ -190,6 +190,14 @@ spec:
           # scheduling. Re-enable by setting a duration (e.g. "30m") if periodic
           # agent wake-ups are ever needed.
           #
+          # NOTE (models.providers.openai.agentRuntime.id: "openclaw"): OpenClaw runs
+          # every openai/* agent model through the Codex app-server harness by default.
+          # Its tool calls (sessions_send, message, ...) go through a native hook relay
+          # kept in gateway memory; after gateway restarts the relay id was gone
+          # ("native hook relay not found" every ~7s) and Chaves' pings to the other
+          # agents were blocked ("Native hook relay unavailable"). Pinning the provider
+          # to the built-in openclaw runtime keeps the API-key route and skips the relay.
+          #
           # NOTE (api: openai-completions + "reasoning": false on requesty gpt-5.5):
           # the OpenAI *Responses* API returns an encrypted reasoning blob
           # (reasoning.encrypted_content) that must be replayed on the next turn.
@@ -403,6 +411,7 @@ spec:
                           "baseUrl": "https://api.openai.com/v1",
                           "apiKey": "${OPENAI_API_KEY}",
                           "api": "openai-responses",
+                          "agentRuntime": { "id": "openclaw" },
                           "models": [
                             {
                               "id": "gpt-5.5",
